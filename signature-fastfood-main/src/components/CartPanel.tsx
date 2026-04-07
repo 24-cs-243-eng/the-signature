@@ -26,9 +26,9 @@ const drinks: Drink[] = [
 ];
 
 const sidesData = [
-  { id: "s1", name: "Regular Fries", price: 180, image: "https://images.unsplash.com/photo-1576107232684-1279f3908594?w=150&h=150&fit=crop" },
-  { id: "s2", name: "Mayo Fries", price: 250, image: "https://images.unsplash.com/photo-1534080564583-6be75777b70a?w=150&h=150&fit=crop" },
-  { id: "s3", name: "Spicy Fries", price: 220, image: "https://images.unsplash.com/photo-1630431341973-02e1b662ce3b?w=150&h=150&fit=crop" },
+  { id: "s1", name: "Regular Fries", price: 180, image: "/media/regular-fries.png" },
+  { id: "s2", name: "Spicy Fries", price: 220, image: "/media/bucket-fries.png" },
+  { id: "s3", name: "Loaded Fries", price: 599, image: "/media/loaded-fries.png" },
 ];
 
 const BucketIcon = ({ className = "" }: { className?: string }) => (
@@ -336,9 +336,11 @@ const CartPanel = () => {
                                     <div key={addOn.id} className="flex flex-row items-center justify-between p-3 bg-muted/10 hover:bg-muted/30 transition-colors">
                                       <div className="flex items-center gap-3">
                                         {addOn.image ? (
-                                           <img src={addOn.image} alt={addOn.name} className="w-10 h-10 object-cover rounded-md shadow-sm border border-border/50" />
+                                          <div className="w-12 h-12 bg-muted/40 rounded-xl border border-border/50 flex items-center justify-center p-1.5 shrink-0">
+                                            <img src={addOn.image} alt={addOn.name} className="w-full h-full object-contain drop-shadow-md" />
+                                          </div>
                                         ) : (
-                                          <div className="w-10 h-10 rounded-md bg-muted flex border border-border/50 items-center justify-center shrink-0">
+                                          <div className="w-16 h-16 shrink-0 bg-gradient-to-b from-muted to-muted/30 rounded-2xl p-2.5 border border-border flex items-center justify-center relative shadow-inner">
                                             <span className="text-[8px] font-heading font-black text-muted-foreground uppercase opacity-50">Sauce</span>
                                           </div>
                                         )}
@@ -381,7 +383,9 @@ const CartPanel = () => {
                                 {sidesData.map(side => (
                                   <div key={side.id} className="flex flex-row items-center justify-between p-3 bg-muted/10 hover:bg-muted/30 transition-colors">
                                     <div className="flex items-center gap-3">
-                                      <img src={side.image} alt={side.name} className="w-10 h-10 object-cover rounded-md shadow-sm border border-border/50" />
+                                      <div className="w-12 h-12 bg-muted/40 rounded-xl border border-border/50 flex items-center justify-center p-1.5 shrink-0">
+                                        <img src={side.image} alt={side.name} className="w-full h-full object-contain drop-shadow-md" />
+                                      </div>
                                       <div className="flex flex-col">
                                         <span className="font-heading font-bold text-sm text-foreground">{side.name}</span>
                                         <span className="text-xs text-muted-foreground">(+Rs {side.price})</span>
