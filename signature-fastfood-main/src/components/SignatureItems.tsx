@@ -68,14 +68,14 @@ const MenuSection = ({ category, items }: { category: string, items: typeof menu
               className="group relative"
             >
               {/* Card */}
-              <div className="bg-card rounded-2xl border border-border shadow-md hover:shadow-xl hover:border-primary/30 transition-all duration-300 flex flex-col h-full overflow-visible">
+              <div className="bg-card rounded-2xl border border-border shadow-md hover:shadow-xl hover:border-primary/30 transition-all duration-300 flex flex-col h-full overflow-visible relative">
 
-                {/* Best Seller / Top Rated slim banner inside card top */}
+                {/* Best Seller / Top Rated — small corner pill */}
                 {(isBestSeller || isTopRated) && (
-                  <div className={`flex items-center justify-center gap-1 py-1 rounded-t-2xl text-[9px] font-black uppercase tracking-wider ${isBestSeller ? "bg-primary text-primary-foreground" : "bg-yellow-500 text-white"}`}>
-                    <Flame className="w-2.5 h-2.5" />
-                    {isBestSeller ? "Best Seller" : "Top Rated"}
-                  </div>
+                  <span className={`absolute top-2 left-2 z-30 flex items-center gap-0.5 px-2 py-0.5 rounded-full text-[8px] font-black uppercase shadow-md ${isBestSeller ? "bg-primary text-primary-foreground" : "bg-yellow-500 text-white"}`}>
+                    <Flame className="w-2 h-2" />
+                    {isBestSeller ? "Best" : "Top"}
+                  </span>
                 )}
 
                 {/* Pop-out food image — reduced overhang */}

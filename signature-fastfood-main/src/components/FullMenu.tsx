@@ -99,12 +99,12 @@ const FullMenu = ({ activeCategory: externalCategory, onCategoryChange, searchQu
               >
                 <div className="bg-card rounded-2xl border border-border shadow-md hover:shadow-xl hover:border-primary/30 transition-all duration-300 flex flex-col h-full overflow-visible">
 
-                  {/* Best Seller banner — full-width slim stripe at card top */}
+                  {/* Best Seller — small corner pill */}
                   {item.isBestSeller && (
-                    <div className="flex items-center justify-center gap-1 py-1 rounded-t-2xl bg-primary text-primary-foreground text-[9px] font-black uppercase tracking-wider">
-                      <Flame className="w-2.5 h-2.5" />
-                      Best Seller
-                    </div>
+                    <span className="absolute top-2 left-2 z-30 flex items-center gap-0.5 px-2 py-0.5 rounded-full bg-primary text-primary-foreground text-[8px] font-black uppercase shadow-md">
+                      <Flame className="w-2 h-2" />
+                      Best
+                    </span>
                   )}
 
                   {/* Favourite button — top-right corner INSIDE card */}
