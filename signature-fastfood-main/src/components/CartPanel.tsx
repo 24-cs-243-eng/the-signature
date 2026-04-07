@@ -380,7 +380,9 @@ const CartPanel = () => {
                             </div>
                             {sidesOpen && (
                               <div className="divide-y divide-border/50">
-                                {sidesData.map(side => (
+                                {sidesData.map(side => {
+                                  const cartItem = items.find(i => i.id === side.id);
+                                  return (
                                   <div key={side.id} className="flex flex-row items-center justify-between p-3 bg-muted/10 hover:bg-muted/30 transition-colors">
                                     <div className="flex items-center gap-3">
                                       <div className="w-12 h-12 bg-muted/40 rounded-xl border border-border/50 flex items-center justify-center p-1.5 shrink-0">
@@ -388,17 +390,25 @@ const CartPanel = () => {
                                       </div>
                                       <div className="flex flex-col">
                                         <span className="font-heading font-bold text-sm text-foreground">{side.name}</span>
-                                        <span className="text-xs text-muted-foreground">(+Rs {side.price})</span>
+                                        <span className="text-xs text-muted-foreground">{cartItem ? `Total: ${formatPKR(side.price * cartItem.quantity)}` : `(+Rs ${side.price})`}</span>
                                       </div>
                                     </div>
-                                    <button
-                                      onClick={() => addItem({ id: side.id, name: side.name, price: side.price, image: side.image })}
-                                      className="px-4 py-1.5 rounded text-xs font-heading font-bold uppercase tracking-wider transition-all shadow-sm bg-red-600 text-white hover:bg-red-700 hover:scale-105 active:scale-95"
-                                    >
-                                      Add
-                                    </button>
+                                    {cartItem ? (
+                                      <div className="flex items-center gap-1 border border-border rounded-lg p-0.5 bg-background shadow-sm mr-1">
+                                        <button onClick={() => updateQuantity(side.id, cartItem.quantity - 1)} className="w-7 h-7 rounded-md bg-card flex items-center justify-center hover:bg-red-500 hover:text-white transition-all text-muted-foreground"><Minus className="w-3.5 h-3.5" /></button>
+                                        <span className="text-xs font-black w-4 text-center text-foreground">{cartItem.quantity}</span>
+                                        <button onClick={() => updateQuantity(side.id, cartItem.quantity + 1)} className="w-7 h-7 rounded-md bg-card flex items-center justify-center hover:bg-green-500 hover:text-white transition-all text-muted-foreground"><Plus className="w-3.5 h-3.5" /></button>
+                                      </div>
+                                    ) : (
+                                      <button
+                                        onClick={() => addItem({ id: side.id, name: side.name, price: side.price, image: side.image })}
+                                        className="px-4 py-1.5 rounded text-xs font-heading font-bold uppercase tracking-wider transition-all shadow-sm bg-red-600 text-white hover:bg-red-700 hover:scale-105 active:scale-95"
+                                      >
+                                        Add
+                                      </button>
+                                    )}
                                   </div>
-                                ))}
+                                )})}
                               </div>
                             )}
                           </div>
