@@ -383,32 +383,46 @@ const CartPanel = () => {
                                 {sidesData.map(side => {
                                   const cartItem = items.find(i => i.id === side.id);
                                   return (
-                                  <div key={side.id} className="flex flex-row items-center justify-between p-3 bg-muted/10 hover:bg-muted/30 transition-colors">
-                                    <div className="flex items-center gap-3">
-                                      <div className="w-12 h-12 bg-muted/40 rounded-xl border border-border/50 flex items-center justify-center p-1.5 shrink-0">
-                                        <img src={side.image} alt={side.name} className="w-full h-full object-contain drop-shadow-md" />
+                                    <div key={side.id} className="flex flex-row items-center justify-between p-3 bg-muted/10 hover:bg-muted/30 transition-colors">
+                                      <div className="flex items-center gap-3">
+                                        <div className="w-12 h-12 bg-muted/40 rounded-xl border border-border/50 flex items-center justify-center p-1.5 shrink-0">
+                                          <img src={side.image} alt={side.name} className="w-full h-full object-contain drop-shadow-md" />
+                                        </div>
+                                        <div className="flex flex-col">
+                                          <span className="font-heading font-bold text-sm text-foreground">{side.name}</span>
+                                          <span className="text-xs text-muted-foreground">(+Rs {side.price})</span>
+                                        </div>
                                       </div>
-                                      <div className="flex flex-col">
-                                        <span className="font-heading font-bold text-sm text-foreground">{side.name}</span>
-                                        <span className="text-xs text-muted-foreground">{cartItem ? `Total: ${formatPKR(side.price * cartItem.quantity)}` : `(+Rs ${side.price})`}</span>
-                                      </div>
+                                      
+                                      {cartItem ? (
+                                        <div className="flex items-center gap-2 bg-muted border border-border p-1 rounded-full shadow-sm">
+                                          <button 
+                                            className="w-6 h-6 rounded-full bg-card shadow-sm flex items-center justify-center hover:bg-red-50 text-red-600 transition-colors"
+                                            onClick={() => cartItem.quantity > 1 ? updateQuantity(side.id, cartItem.quantity - 1) : removeItem(side.id)}
+                                          >
+                                            <Minus className="w-3 h-3 font-bold" />
+                                          </button>
+                                          <span className="font-heading font-black text-sm w-4 text-center">
+                                            {cartItem.quantity}
+                                          </span>
+                                          <button 
+                                            className="w-6 h-6 rounded-full bg-primary shadow-sm flex items-center justify-center text-primary-foreground hover:bg-primary/90 hover:scale-105 transition-transform"
+                                            onClick={() => updateQuantity(side.id, cartItem.quantity + 1)}
+                                          >
+                                            <Plus className="w-3 h-3 font-bold" />
+                                          </button>
+                                        </div>
+                                      ) : (
+                                        <button
+                                          onClick={() => addItem({ id: side.id, name: side.name, price: side.price, image: side.image })}
+                                          className="px-4 py-1.5 rounded text-xs font-heading font-bold uppercase tracking-wider transition-all shadow-sm bg-red-600 text-white hover:bg-red-700 hover:scale-105 active:scale-95"
+                                        >
+                                          Add
+                                        </button>
+                                      )}
                                     </div>
-                                    {cartItem ? (
-                                      <div className="flex items-center gap-1 border border-border rounded-lg p-0.5 bg-background shadow-sm mr-1">
-                                        <button onClick={() => updateQuantity(side.id, cartItem.quantity - 1)} className="w-7 h-7 rounded-md bg-card flex items-center justify-center hover:bg-red-500 hover:text-white transition-all text-muted-foreground"><Minus className="w-3.5 h-3.5" /></button>
-                                        <span className="text-xs font-black w-4 text-center text-foreground">{cartItem.quantity}</span>
-                                        <button onClick={() => updateQuantity(side.id, cartItem.quantity + 1)} className="w-7 h-7 rounded-md bg-card flex items-center justify-center hover:bg-green-500 hover:text-white transition-all text-muted-foreground"><Plus className="w-3.5 h-3.5" /></button>
-                                      </div>
-                                    ) : (
-                                      <button
-                                        onClick={() => addItem({ id: side.id, name: side.name, price: side.price, image: side.image })}
-                                        className="px-4 py-1.5 rounded text-xs font-heading font-bold uppercase tracking-wider transition-all shadow-sm bg-red-600 text-white hover:bg-red-700 hover:scale-105 active:scale-95"
-                                      >
-                                        Add
-                                      </button>
-                                    )}
-                                  </div>
-                                )})}
+                                  );
+                                })}
                               </div>
                             )}
                           </div>
