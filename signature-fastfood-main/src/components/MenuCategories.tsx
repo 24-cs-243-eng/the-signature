@@ -38,7 +38,7 @@ const MenuCategories = ({ onCategorySelect, isHome }: MenuCategoriesProps) => {
 
         {/* KFC-style horizontal scroll */}
         {!isHome && (
-          <div className="flex gap-4 overflow-x-auto pb-6 scrollbar-hide -mx-4 px-4 snap-x">
+          <div className="flex gap-4 overflow-x-auto pb-6 scrollbar-hide -mx-4 px-4 snap-x md:justify-center mx-auto">
             {categories.map((cat, i) => (
               <motion.div
                 key={cat.name}

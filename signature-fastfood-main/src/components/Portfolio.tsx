@@ -1,6 +1,6 @@
-const project1 = "/media/project-1.jpg";;
-const project2 = "/media/project-2.jpg";;
-const project3 = "/media/project-3.jpg";;
+const project1 = "/media/project-1.jpg";
+const project2 = "/media/project-2.jpg";
+const project3 = "/media/project-3.jpg";
 
 const Portfolio = () => {
   const projects = [

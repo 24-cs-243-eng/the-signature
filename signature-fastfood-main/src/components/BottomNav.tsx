@@ -12,11 +12,11 @@ const BottomNav = () => {
   const { pathname } = useLocation();
 
   return (
-    <nav className="fixed bottom-4 left-4 right-4 z-50 lg:hidden bg-[#2a2a2a]/40 backdrop-blur-md border border-white/20 shadow-[0_8px_32px_0_rgba(0,0,0,0.37)] rounded-[32px] overflow-hidden">
+    <nav className="fixed bottom-0 left-0 right-0 z-50 lg:hidden bg-[#2a2a2a]/95 backdrop-blur-xl border-t border-white/20 shadow-[0_-8px_32px_0_rgba(0,0,0,0.37)] rounded-t-[32px] overflow-hidden pb-1">
       <div className="absolute inset-0 bg-gradient-to-r from-orange-300/10 via-amber-500/5 to-purple-500/10 pointer-events-none mix-blend-overlay"></div>
-      <div className="absolute inset-0 ring-1 ring-inset ring-white/10 rounded-[32px]"></div>
+      <div className="absolute inset-0 ring-1 ring-inset ring-white/10 rounded-t-[32px] border-b-0"></div>
       
-      <div className="relative flex items-center justify-around py-3 px-2">
+      <div className="relative flex items-center justify-around pt-3 pb-4 px-2">
         {tabs.map(({ to, label, icon: Icon }) => {
           const active = pathname === to;
           return (

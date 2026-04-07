@@ -56,7 +56,7 @@ const FullMenu = ({ activeCategory: externalCategory, onCategoryChange, searchQu
     });
 
   return (
-    <section ref={ref} id="full-menu" className="py-16 bg-background scroll-mt-20">
+    <section ref={ref} id="full-menu" className="pt-4 pb-16 bg-background scroll-mt-20">
       <div className="container mx-auto px-4">
         {/* Category filter — hidden when search is active */}
         {!searchQuery && (
@@ -99,7 +99,7 @@ const FullMenu = ({ activeCategory: externalCategory, onCategoryChange, searchQu
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.4, delay: i * 0.04 }}
                 whileHover={{ y: -6 }}
-                className="bg-card rounded-xl border border-border mt-12 shadow-sm hover:shadow-xl hover:border-primary/20 hover:-translate-y-1 transition-all group relative flex flex-col h-full"
+                className="bg-card rounded-xl border border-border mt-10 shadow-sm hover:shadow-xl hover:border-primary/20 hover:-translate-y-1 transition-all group relative flex flex-col h-full"
               >
                 {/* Pop-out image */}
                 <div className="absolute -top-12 left-1/2 -translate-x-1/2 w-32 h-32 flex justify-center z-20 pointer-events-none">

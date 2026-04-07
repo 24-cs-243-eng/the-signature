@@ -17,13 +17,28 @@ const MenuSection = ({ category, items }: { category: string, items: typeof menu
   const isInView = useInView(ref, { once: true, amount: 0.1 });
   const { addItem } = useCart();
   const [addedId, setAddedId] = useState<string | null>(null);
+  const [selectedSizes, setSelectedSizes] = useState<Record<string, string>>({});
 
   if (items.length === 0) return null;
 
-  const handleAdd = (item: typeof menuItems[0]) => {
-    addItem({ id: item.id, name: item.name, price: item.price, image: item.image });
-    setAddedId(item.id);
-    toast.success(`${item.name} added!`, { duration: 1500 });
+  const getSizePrice = (itemId: string, basePrice: number, sizes?: { label: string; price: number }[]) => {
+    if (!sizes) return basePrice;
+    const label = selectedSizes[itemId] ?? sizes[1]?.label ?? sizes[0]?.label;
+    return sizes.find((s) => s.label === label)?.price ?? basePrice;
+  };
+
+  const getActiveLabel = (itemId: string, sizes?: { label: string; price: number }[]) => {
+    if (!sizes) return null;
+    return selectedSizes[itemId] ?? sizes[1]?.label ?? sizes[0]?.label;
+  };
+
+  const handleAdd = (item: typeof menuItems[0], price: number, label: string | null) => {
+    const finalId = label ? `${item.id}-${label}` : item.id;
+    const finalName = label ? `${item.name} (${label})` : item.name;
+    
+    addItem({ id: finalId, name: finalName, price: price, image: item.image });
+    setAddedId(finalId);
+    toast.success(`${finalName} added!`, { duration: 1500 });
     setTimeout(() => setAddedId(null), 700);
   };
 
@@ -45,7 +60,11 @@ const MenuSection = ({ category, items }: { category: string, items: typeof menu
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-5">
         {items.map((item, i) => {
           const badge = getBadge(item);
-          const isAdded = addedId === item.id;
+          const activeLabel = getActiveLabel(item.id, item.sizes);
+          const activePrice = getSizePrice(item.id, item.price, item.sizes);
+          const currentId = activeLabel ? `${item.id}-${activeLabel}` : item.id;
+          const isAdded = addedId === currentId;
+
           return (
             <motion.div
               key={item.id}
@@ -65,8 +84,9 @@ const MenuSection = ({ category, items }: { category: string, items: typeof menu
                 )}
 
                 {/* Price top-right */}
-                <div className="absolute -top-3 right-4 z-30 bg-foreground text-background text-[11px] font-black px-3 py-1 rounded-full shadow-md">
-                  {formatPKR(item.price)}
+                <div className="absolute -top-3 right-4 z-30 bg-foreground text-background text-[11px] font-black px-3 py-1 rounded-full shadow-md flex items-center gap-1">
+                  {formatPKR(activePrice)}
+                  {activeLabel && <span className="text-[8px] opacity-70">({activeLabel})</span>}
                 </div>
 
                 {/* Image Pop-out */}
@@ -99,6 +119,25 @@ const MenuSection = ({ category, items }: { category: string, items: typeof menu
                     {item.description}
                   </p>
 
+                  {/* S/M/L Sizes */}
+                  {item.sizes && (
+                    <div className="flex items-center gap-1.5 mb-4">
+                      {item.sizes.map((sz) => (
+                        <button
+                          key={sz.label}
+                          onClick={() => setSelectedSizes((prev) => ({ ...prev, [item.id]: sz.label }))}
+                          className={`w-7 h-7 md:w-8 md:h-8 rounded-md text-xs font-heading font-black border transition-all duration-200 ${
+                            activeLabel === sz.label
+                              ? "bg-primary text-primary-foreground border-primary shadow-md scale-110 relative z-10"
+                              : "bg-muted text-muted-foreground border-border hover:border-primary/40 hover:text-foreground"
+                          }`}
+                        >
+                          {sz.label}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+
                   {/* Add button */}
                   <AnimatePresence mode="wait">
                     <motion.button
@@ -107,7 +146,7 @@ const MenuSection = ({ category, items }: { category: string, items: typeof menu
                       animate={{ opacity: 1, scale: 1 }}
                       exit={{ opacity: 0, scale: 0.9 }}
                       whileTap={{ scale: 0.92 }}
-                      onClick={() => handleAdd(item)}
+                      onClick={() => handleAdd(item, activePrice, activeLabel)}
                       className={`w-full max-w-[140px] flex items-center justify-center gap-2 py-2.5 rounded-md font-heading font-black text-xs tracking-wider transition-all duration-300 shadow-md ${
                         isAdded
                           ? "bg-green-500 text-white shadow-green-500/25"

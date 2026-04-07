@@ -1,1 +1,1 @@
-export const USE_PHP_BACKEND = true; // Set to true to use Hostinger PHP APIs, false = Supabase
+export const USE_PHP_BACKEND = false; // Set to true to use Hostinger PHP APIs, false = Supabase

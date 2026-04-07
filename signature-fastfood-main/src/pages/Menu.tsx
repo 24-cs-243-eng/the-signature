@@ -22,7 +22,7 @@ const MenuHero = () => (
         playsInline
         className="absolute inset-0 w-full h-full object-cover opacity-90 dark:opacity-80"
       >
-        <source src="/menu-video.mp4" type="video/mp4" />
+        <source src="/media/menu-video.mp4" type="video/mp4" />
       </video>
       <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/60 to-background z-10" />
     </div>

@@ -167,7 +167,7 @@ const CartPanel = () => {
     setOrderId(newOrderId);
     setLoading(false);
     setStep("done");
-    window.open(`https://wa.me/923125429037?text=${encodeURIComponent(message)}`, "_blank", "noopener,noreferrer");
+    window.location.href = `https://wa.me/923125429037?text=${encodeURIComponent(message)}`;
     clearCart();
   };
 

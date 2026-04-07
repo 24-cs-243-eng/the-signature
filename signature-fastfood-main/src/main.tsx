@@ -6,7 +6,7 @@ import "./index.css";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <ThemeProvider defaultDesktopTheme="system" defaultMobileTheme="system" storageKey="architecture-theme">
+    <ThemeProvider defaultTheme="dark" storageKey="signature-theme">
       <App />
     </ThemeProvider>
   </StrictMode>

@@ -1,26 +1,20 @@
 import { createContext, useContext, useEffect, useState } from "react"
 
-export type Theme = "dark" | "light" | "system"
-export type DeviceType = "desktop" | "mobile"
+export type Theme = "dark" | "light"
 
 type ThemeProviderProps = {
   children: React.ReactNode
-  defaultDesktopTheme?: Theme
-  defaultMobileTheme?: Theme
+  defaultTheme?: Theme
   storageKey?: string
 }
 
 type ThemeProviderState = {
-  desktopTheme: Theme
-  mobileTheme: Theme
-  activeTheme: Theme
-  setTheme: (device: DeviceType, theme: Theme) => void
+  theme: Theme
+  setTheme: (theme: Theme) => void
 }
 
 const initialState: ThemeProviderState = {
-  desktopTheme: "system",
-  mobileTheme: "system",
-  activeTheme: "system",
+  theme: "dark",
   setTheme: () => null,
 }
 
@@ -28,59 +22,27 @@ const ThemeProviderContext = createContext<ThemeProviderState>(initialState)
 
 export function ThemeProvider({
   children,
-  defaultDesktopTheme = "system",
-  defaultMobileTheme = "system",
-  storageKey = "vite-ui-theme",
+  defaultTheme = "dark",
+  storageKey = "signature-theme",
   ...props
 }: ThemeProviderProps) {
-  const [desktopTheme, setDesktopThemeState] = useState<Theme>(
-    () => (localStorage.getItem(`${storageKey}-desktop`) as Theme) || defaultDesktopTheme
+  const [theme, setThemeState] = useState<Theme>(
+    () => (localStorage.getItem(storageKey) as Theme) || defaultTheme
   )
-  const [mobileTheme, setMobileThemeState] = useState<Theme>(
-    () => (localStorage.getItem(`${storageKey}-mobile`) as Theme) || defaultMobileTheme
-  )
-
-  const [isMobile, setIsMobile] = useState(false)
-
-  useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth < 1024)
-    handleResize() // init
-    window.addEventListener("resize", handleResize)
-    return () => window.removeEventListener("resize", handleResize)
-  }, [])
-
-  const currentThemeSetting = isMobile ? mobileTheme : desktopTheme
 
   useEffect(() => {
     const root = window.document.documentElement
     root.classList.remove("light", "dark")
+    root.classList.add(theme)
+  }, [theme])
 
-    if (currentThemeSetting === "system") {
-      const systemTheme = window.matchMedia("(prefers-color-scheme: dark)").matches
-        ? "dark"
-        : "light"
-      root.classList.add(systemTheme)
-      return
-    }
-
-    root.classList.add(currentThemeSetting)
-  }, [currentThemeSetting])
-
-  const setTheme = (device: DeviceType, theme: Theme) => {
-    localStorage.setItem(`${storageKey}-${device}`, theme)
-    if (device === "desktop") setDesktopThemeState(theme)
-    else setMobileThemeState(theme)
-  }
-
-  const value = {
-    desktopTheme,
-    mobileTheme,
-    activeTheme: currentThemeSetting,
-    setTheme,
+  const setTheme = (newTheme: Theme) => {
+    localStorage.setItem(storageKey, newTheme)
+    setThemeState(newTheme)
   }
 
   return (
-    <ThemeProviderContext.Provider {...props} value={value}>
+    <ThemeProviderContext.Provider {...props} value={{ theme, setTheme }}>
       {children}
     </ThemeProviderContext.Provider>
   )
