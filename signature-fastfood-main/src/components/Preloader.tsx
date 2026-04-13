@@ -2,27 +2,34 @@ import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 
 const Preloader = () => {
-  const [progress, setProgress] = useState(0);
-  const [visible, setVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const location = useLocation();
 
   useEffect(() => {
-    setProgress(0);
-    setVisible(true);
-    const t1 = setTimeout(() => setProgress(75), 60);
-    const t2 = setTimeout(() => setProgress(100), 350);
-    const t3 = setTimeout(() => setVisible(false), 600);
-    return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); };
+    setIsLoading(true);
+    // Short preloader on route change
+    const timer = setTimeout(() => setIsLoading(false), 500);
+    return () => clearTimeout(timer);
   }, [location.pathname]);
 
-  if (!visible) return null;
+  if (!isLoading) return null;
 
   return (
-    <div className="fixed top-0 left-0 right-0 z-[999] h-[3px] pointer-events-none">
-      <div
-        className="h-full bg-gradient-to-r from-primary via-orange-400 to-primary shadow-[0_0_8px_hsl(349,100%,45%,0.8)]"
-        style={{ width: `${progress}%`, transition: "width 280ms ease-out" }}
-      />
+    <div
+      className="fixed inset-0 bg-background/95 backdrop-blur-sm flex flex-col items-center justify-center"
+      style={{ zIndex: 200 }}
+    >
+      <div className="relative w-24 h-24 mb-6">
+        <img
+          src="/media/signature-logo.jpeg"
+          alt="Signature 3D Logo"
+          className="w-full h-full object-cover rounded-full border-2 border-primary/50 shadow-2xl animate-flip-3d"
+        />
+        <div className="absolute -inset-2 rounded-full shadow-[0_0_20px_hsl(349,100%,45%,0.3)] animate-pulse-glow pointer-events-none" />
+      </div>
+      <h2 className="text-2xl font-heading font-black text-foreground tracking-widest uppercase animate-pulse">
+        Signature
+      </h2>
     </div>
   );
 };
