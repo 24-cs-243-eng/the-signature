@@ -8,6 +8,7 @@ import { AuthProvider } from "@/context/AuthContext";
 import { OrderModeProvider } from "@/context/OrderModeContext";
 import BottomNav from "@/components/BottomNav";
 import FloatingCart from "@/components/FloatingCart";
+import Preloader from "@/components/Preloader";
 import Index from "./pages/Index";
 import MenuPage from "./pages/Menu";
 import DealsPage from "./pages/Deals";
@@ -30,6 +31,7 @@ const App = () => (
             <Toaster />
             <Sonner />
             <BrowserRouter>
+              <Preloader />
               <Routes>
                 <Route path="/" element={<Index />} />
                 <Route path="/menu" element={<MenuPage />} />

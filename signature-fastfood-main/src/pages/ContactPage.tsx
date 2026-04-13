@@ -69,7 +69,7 @@ const ContactPage = () => (
         <div className="grid grid-cols-2 gap-3 md:gap-4 mb-6">
           {[
             { icon: Phone, label: "Call Us",   value: contactInfo.phone,            link: `tel:+923125429037` },
-            { icon: MapPin, label: "Find Us",   value: "Ameer Mall, Wah Cantt",       link: "https://maps.app.goo.gl/WKWgKNUkBgAHoYii8" },
+            { icon: MapPin, label: "Find Us",   value: "Ameer Mall, Wah Cantt",       link: "https://maps.app.goo.gl/jYdDCgGfqaS5qafX8" },
             { icon: Clock,  label: "Timings",   value: "12 PM – 12 AM",               link: undefined },
             { icon: MessageCircle, label: "WhatsApp", value: "Chat with us",          link: `https://wa.me/923125429037` },
           ].map((item) => (
@@ -106,10 +106,9 @@ const ContactPage = () => (
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Instagram"
-              className="flex items-center gap-2.5 bg-muted hover:bg-muted/70 border border-border rounded-lg px-5 py-3 transition-all hover:scale-105 hover:shadow-md"
+              className="flex items-center justify-center w-14 h-14 bg-muted hover:bg-muted/70 border border-border rounded-xl transition-all hover:scale-110 hover:shadow-md"
             >
               <InstagramIcon />
-              <span className="font-heading font-bold text-sm text-foreground">{contactInfo.instagram}</span>
             </a>
             {/* TikTok */}
             <a
@@ -117,10 +116,9 @@ const ContactPage = () => (
               target="_blank"
               rel="noopener noreferrer"
               aria-label="TikTok"
-              className="flex items-center gap-2.5 bg-muted hover:bg-muted/70 border border-border rounded-lg px-5 py-3 transition-all hover:scale-105 hover:shadow-md"
+              className="flex items-center justify-center w-14 h-14 bg-muted hover:bg-muted/70 border border-border rounded-xl transition-all hover:scale-110 hover:shadow-md"
             >
               <TikTokIcon />
-              <span className="font-heading font-bold text-sm text-foreground">{contactInfo.tiktok}</span>
             </a>
           </div>
         </motion.div>
@@ -151,14 +149,14 @@ const ContactPage = () => (
           className="rounded-xl overflow-hidden border border-border mb-6 shadow-sm"
         >
           <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3312.5!2d72.7567!3d33.7667!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38dfb5e5c1c0e3f5%3A0x1234567890abcdef!2sAmeer%20Mall%2C%20New%20City%20Wah%20Cantt%20Phase%202!5e0!3m2!1sen!2spk!4v1700000000000!5m2!1sen!2spk"
+            src="https://maps.google.com/maps?q=Ameer+Mall+New+City+Phase+2+Wah+Cantt&output=embed&z=16"
             width="100%"
             height="220"
             style={{ border: 0 }}
             allowFullScreen
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
-            title="The Signature Café Location"
+            title="The Signature Location"
             className="w-full"
           />
         </motion.div>

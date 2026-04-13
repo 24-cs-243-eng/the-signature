@@ -3,7 +3,7 @@ import { useRef } from "react";
 import { MapPin, Clock, Navigation } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-const MAPS_LINK = "https://maps.app.goo.gl/WKWgKNUkBgAHoYii8";
+const MAPS_LINK = "https://maps.app.goo.gl/jYdDCgGfqaS5qafX8";
 const WHATSAPP_LINK = "https://wa.me/923125429037";
 
 const stores = [

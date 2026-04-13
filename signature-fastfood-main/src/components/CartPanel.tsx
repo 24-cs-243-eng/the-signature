@@ -44,7 +44,7 @@ type Step = "cart" | "checkout" | "done";
 let lastOrderTime = 0;
 
 const CartPanel = () => {
-  const { items, isCartOpen, setIsCartOpen, removeItem, updateQuantity, totalPrice, totalItems, clearCart, addItem } = useCart();
+  const { items, isCartOpen, setIsCartOpen, removeItem, updateQuantity, totalPrice, totalItems, clearCart, addItem, reward, finalTotal } = useCart();
   const { user } = useAuth();
   const { mode } = useOrderMode();
   const [showLogin, setShowLogin] = useState(false);
@@ -122,7 +122,7 @@ const CartPanel = () => {
       : `📍 *Delivery Address:*\n${address}`;
 
     const addOnTotal = selectedAddOns.reduce((s, a) => s + a.price, 0);
-    const grandTotal = totalPrice + addOnTotal + drinksTotal;
+    const grandTotal = finalTotal + addOnTotal + drinksTotal;
 
     const addOnLine = selectedAddOns.length > 0
       ? `\n*Add-Ons:* ${selectedAddOns.map(a => a.name).join(", ")} (+${formatPKR(addOnTotal)})`
@@ -134,9 +134,12 @@ const CartPanel = () => {
 
     const message =
       `🍔 *New Order — ${newOrderId}*\n\n` +
-      items.map(i => `• ${i.name} ×${i.quantity}  —  ${formatPKR(i.price * i.quantity)}`).join("\n") +
+      items.filter(i => i.price > 0).map(i => `• ${i.name} ×${i.quantity}  —  ${formatPKR(i.price * i.quantity)}`).join("\n") +
+      (reward.freeBurger ? "\n• 🎁 Free Patty Burger ×1  —  FREE" : "") +
       addOnLine +
       drinksLine +
+      (reward.discountAmount > 0 ? `\n💰 *Discount: −${formatPKR(reward.discountAmount)}*` : "") +
+      (reward.freeDelivery ? "\n🚚 *Delivery: FREE*" : "") +
       `\n\n*Total: ${formatPKR(grandTotal)}*\n\n` +
       `👤 *Name:* ${customerName}\n📞 *Phone:* ${phone}\n\n` +
       `${orderType}\n\n💵 *Cash on Delivery*`;
@@ -507,9 +510,28 @@ const CartPanel = () => {
                           <span>{formatPKR(d.drink.price)}</span>
                         </div>
                       ))}
+                      {/* Reward rows */}
+                      {reward.freeBurger && (
+                        <div className="flex justify-between text-green-400 text-xs font-bold">
+                          <span>🍔 Free Patty Burger</span>
+                          <span>FREE</span>
+                        </div>
+                      )}
+                      {reward.freeDelivery && (
+                        <div className="flex justify-between text-green-400 text-xs font-bold">
+                          <span>🚚 Delivery</span>
+                          <span>FREE</span>
+                        </div>
+                      )}
+                      {reward.discountAmount > 0 && (
+                        <div className="flex justify-between text-green-400 text-xs font-bold">
+                          <span>💰 Deal Discount</span>
+                          <span>−{formatPKR(reward.discountAmount)}</span>
+                        </div>
+                      )}
                       <div className="border-t border-border mt-2 pt-2 flex justify-between font-black text-foreground">
                         <span>Total</span>
-                        <span className="text-primary">{formatPKR(totalPrice + drinksTotal + selectedAddOns.reduce((s, a) => s + a.price, 0))}</span>
+                        <span className="text-primary">{formatPKR(finalTotal + drinksTotal + selectedAddOns.reduce((s, a) => s + a.price, 0))}</span>
                       </div>
                     </div>
                   </div>
@@ -544,9 +566,14 @@ const CartPanel = () => {
               {/* Footer actions */}
               {items.length > 0 && step !== "done" && (
                 <div className="border-t border-border p-5 bg-card space-y-3 shrink-0">
-                  <div className="flex justify-between font-heading font-black text-xl text-foreground">
-                    <span>Total</span>
-                    <span className="text-primary">{formatPKR(totalPrice + drinksTotal + selectedAddOns.reduce((s, a) => s + a.price, 0))}</span>
+                  <div className="space-y-1">
+                    <div className="flex justify-between font-heading font-black text-xl text-foreground">
+                      <span>Total</span>
+                      <span className="text-primary">{formatPKR(finalTotal + drinksTotal + selectedAddOns.reduce((s, a) => s + a.price, 0))}</span>
+                    </div>
+                    {reward.label && (
+                      <p className="text-green-400 text-xs font-bold text-right">{reward.label} Applied! 🎉</p>
+                    )}
                   </div>
 
                   {step === "cart" && (

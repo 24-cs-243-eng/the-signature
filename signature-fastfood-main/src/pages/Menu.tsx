@@ -14,17 +14,20 @@ import { menuItems } from "@/data/menuData";
 const MenuHero = () => (
   <section className="relative h-[50vh] md:h-[55vh] overflow-hidden flex items-center justify-center bg-background">
     {/* Video Background */}
-    <div className="absolute inset-0 w-full h-full z-0 overflow-hidden bg-black">
+    <div className="absolute inset-0 w-full h-full z-0 overflow-hidden">
       <video
         autoPlay
         muted
         loop
         playsInline
-        className="absolute inset-0 w-full h-full object-cover opacity-90 dark:opacity-80"
+        className="absolute inset-0 w-full h-full object-cover"
       >
         <source src="/media/menu-video.mp4" type="video/mp4" />
       </video>
-      <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/60 to-background z-10" />
+      {/* Light-mode friendly overlay: dark but not opaque */}
+      <div className="absolute inset-0 bg-black/55 z-10" />
+      {/* Bottom fade to page background */}
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent z-10" />
     </div>
 
     <div className="relative z-20 text-center px-4">

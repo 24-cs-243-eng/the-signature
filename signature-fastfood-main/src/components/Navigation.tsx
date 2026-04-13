@@ -48,33 +48,14 @@ const Navigation = () => {
     setShowModeSelector(true);
   };
 
-  const isActive = (path: string) => location.pathname === path;
+  const isActive = (to: string) => {
+    if (to.includes("#")) return location.pathname + location.hash === to;
+    return location.pathname === to;
+  };
 
   return (
     <>
       <nav className="fixed top-0 left-0 right-0 z-50">
-
-        {/* Top strip for Mobile ONLY — solves the overlapping layout issue */}
-        <div className="bg-muted lg:hidden border-b border-border shadow-sm flex items-center justify-center p-2">
-           <div className="flex bg-card rounded-full p-0.5 border border-border shadow-inner">
-             <button
-                onClick={() => openModeSelector("delivery")}
-                className={`flex items-center gap-1.5 px-4 py-1.5 rounded-full text-[11px] font-heading font-bold uppercase tracking-wider transition-all ${
-                  mode === "delivery" ? "bg-primary text-primary-foreground shadow-md" : "text-foreground/70"
-                }`}
-              >
-                <MapPin className="w-3.5 h-3.5" /> Delivery
-              </button>
-              <button
-                onClick={() => openModeSelector("pickup")}
-                className={`flex items-center gap-1.5 px-4 py-1.5 rounded-full text-[11px] font-heading font-bold uppercase tracking-wider transition-all ${
-                  mode === "pickup" ? "bg-primary text-primary-foreground shadow-md" : "text-foreground/70"
-                }`}
-              >
-                <Store className="w-3.5 h-3.5" /> Pickup
-              </button>
-          </div>
-        </div>
 
         {/* Main navbar — White bg with strong bottom shadow */}
         <div className="bg-card/95 backdrop-blur-md border-b border-border shadow-md">
@@ -95,50 +76,51 @@ const Navigation = () => {
               </div>
             </Link>
 
-            {/* Desktop nav links & Mode Selector */}
-            <div className="hidden lg:flex items-center gap-4">
-              <div className="flex bg-muted rounded-full p-1 border border-border shadow-inner">
-                <button
-                  onClick={() => openModeSelector("delivery")}
-                  className={`flex items-center gap-1.5 px-4 py-1.5 rounded-full text-[11px] font-heading font-bold uppercase tracking-wider transition-all ${
-                    mode === "delivery" ? "bg-primary text-primary-foreground shadow-md" : "text-foreground/70 hover:text-foreground"
-                  }`}
-                >
-                  <MapPin className="w-3.5 h-3.5" /> Delivery
-                </button>
-                <button
-                  onClick={() => openModeSelector("pickup")}
-                  className={`flex items-center gap-1.5 px-4 py-1.5 rounded-full text-[11px] font-heading font-bold uppercase tracking-wider transition-all ${
-                    mode === "pickup" ? "bg-primary text-primary-foreground shadow-md" : "text-foreground/70 hover:text-foreground"
-                  }`}
-                >
-                  <Store className="w-3.5 h-3.5" /> Pickup
-                </button>
-              </div>
-
-              <div className="h-4 w-px bg-border mx-1" />
-
+            {/* Desktop nav links */}
+            <div className="hidden lg:flex items-center gap-1">
               {navLinks.map((link) => (
                 <Link
                   key={link.to}
                   to={link.to}
-                  className={`px-3 py-2 rounded-full text-sm font-heading font-bold uppercase tracking-wider transition-all ${
+                  className={`px-3.5 py-2 rounded-full text-sm font-heading font-bold uppercase tracking-wider transition-all ${
                     isActive(link.to)
-                      ? "bg-primary text-primary-foreground"
-                      : "text-foreground/70 hover:text-primary hover:bg-primary/5"
+                      ? "bg-primary text-primary-foreground shadow-sm shadow-primary/40"
+                      : "text-foreground/60 hover:text-foreground hover:bg-muted"
                   }`}
                 >
                   {link.label}
                 </Link>
               ))}
-            </div>
+            </div>{/* end desktop nav */}
 
-            {/* Right actions */}
-            <div className="flex items-center gap-2">
-              {/* Cart bucket icon */}
+            {/* Right side actions group */}
+            <div className="flex items-center gap-1.5">
+              {/* Delivery / Pickup toggle — desktop only */}
+              <div className="hidden lg:flex bg-muted rounded-full p-0.5 border border-border mr-1">
+                <button
+                  onClick={() => openModeSelector("delivery")}
+                  className={`flex items-center gap-1 px-3 py-1.5 rounded-full text-[10px] font-heading font-bold uppercase tracking-wider transition-all ${
+                    mode === "delivery" ? "bg-primary text-primary-foreground shadow-sm" : "text-foreground/60 hover:text-foreground"
+                  }`}
+                >
+                  <MapPin className="w-3 h-3" /> Delivery
+                </button>
+                <button
+                  onClick={() => openModeSelector("pickup")}
+                  className={`flex items-center gap-1 px-3 py-1.5 rounded-full text-[10px] font-heading font-bold uppercase tracking-wider transition-all ${
+                    mode === "pickup" ? "bg-primary text-primary-foreground shadow-sm" : "text-foreground/60 hover:text-foreground"
+                  }`}
+                >
+                  <Store className="w-3 h-3" /> Pickup
+                </button>
+              </div>
+
+              <div className="hidden lg:block h-4 w-px bg-border" />
+
+              {/* Cart */}
               <button
                 onClick={() => setIsCartOpen(true)}
-                className="relative p-2 rounded-full hover:bg-primary/5 transition-colors group"
+                className="relative p-2 rounded-full hover:bg-muted transition-colors group"
               >
                 <BucketIcon className="w-6 h-6 text-foreground/70 group-hover:text-primary transition-colors" />
                 {totalItems > 0 && (
@@ -152,23 +134,19 @@ const Navigation = () => {
                 )}
               </button>
 
-              {/* Theme toggle */}
               <ThemeToggle />
 
-              {/* User */}
-              {user ? (
-                <UserMenu />
-              ) : (
+              {user ? <UserMenu /> : (
                 <button
                   onClick={() => setIsLoginOpen(true)}
-                  className="p-2 rounded-full hover:bg-primary/5 transition-colors group"
+                  className="p-2 rounded-full hover:bg-muted transition-colors group"
                 >
                   <User className="w-5 h-5 text-foreground/70 group-hover:text-primary transition-colors" />
                 </button>
               )}
 
-              {/* Order Now CTA */}
-              <Link to="/menu" className="hidden sm:block">
+              {/* Order Now — desktop only */}
+              <Link to="/menu" className="hidden lg:block ml-1">
                 <Button
                   className="bg-gradient-brand text-primary-foreground font-heading font-black text-xs uppercase tracking-wider rounded-full px-5 shadow-md hover:shadow-lg hover:opacity-95 transition-all"
                   size="sm"
@@ -179,34 +157,54 @@ const Navigation = () => {
 
               {/* Mobile hamburger */}
               <button
-                className="lg:hidden p-2 rounded-full hover:bg-primary/5 transition-colors"
+                className="lg:hidden p-2 rounded-full hover:bg-muted transition-colors"
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
               >
                 {isMenuOpen ? <X className="w-5 h-5 text-foreground" /> : <Menu className="w-5 h-5 text-foreground" />}
               </button>
-            </div>
-          </div>
-        </div>
+            </div>{/* end right actions */}
+          </div>{/* end container */}
+        </div>{/* end bg-card bar */}
 
-        {/* Mobile dropdown */}
+        {/* Mobile dropdown — simplified, no hash links since BottomNav handles Custom Deals */}
         <AnimatePresence>
           {isMenuOpen && (
             <motion.div
               initial={{ height: 0, opacity: 0 }}
               animate={{ height: "auto", opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.25 }}
-              className="lg:hidden overflow-hidden bg-card border-b border-border shadow-lg"
+              transition={{ duration: 0.22 }}
+              className="lg:hidden overflow-hidden bg-card border-b border-border shadow-xl"
             >
-              <div className="container mx-auto px-4 py-3 space-y-1">
+              <div className="container mx-auto px-4 py-4 space-y-1">
+                {/* Delivery/Pickup toggle in mobile menu too */}
+                <div className="flex bg-muted rounded-2xl p-1 border border-border mb-3">
+                  <button
+                    onClick={() => { openModeSelector("delivery"); setIsMenuOpen(false); }}
+                    className={`flex-1 flex items-center justify-center gap-1.5 py-2 rounded-xl text-xs font-heading font-bold uppercase tracking-wider transition-all ${
+                      mode === "delivery" ? "bg-primary text-primary-foreground shadow-md" : "text-foreground/60"
+                    }`}
+                  >
+                    <MapPin className="w-3.5 h-3.5" /> Delivery
+                  </button>
+                  <button
+                    onClick={() => { openModeSelector("pickup"); setIsMenuOpen(false); }}
+                    className={`flex-1 flex items-center justify-center gap-1.5 py-2 rounded-xl text-xs font-heading font-bold uppercase tracking-wider transition-all ${
+                      mode === "pickup" ? "bg-primary text-primary-foreground shadow-md" : "text-foreground/60"
+                    }`}
+                  >
+                    <Store className="w-3.5 h-3.5" /> Pickup
+                  </button>
+                </div>
+
                 {navLinks.map((link) => (
                   <Link
                     key={link.to}
                     to={link.to}
                     onClick={() => setIsMenuOpen(false)}
-                    className={`flex items-center justify-between py-3 px-4 rounded-xl text-sm font-heading font-bold uppercase tracking-wider transition-all ${
+                    className={`flex items-center justify-between py-3 px-4 rounded-2xl text-sm font-heading font-bold uppercase tracking-wider transition-all ${
                       isActive(link.to)
-                        ? "bg-primary/10 text-primary"
+                        ? "bg-primary/10 text-primary border border-primary/20"
                         : "text-foreground/70 hover:bg-muted hover:text-foreground"
                     }`}
                   >
@@ -214,6 +212,7 @@ const Navigation = () => {
                     <ChevronRight className="w-4 h-4 opacity-40" />
                   </Link>
                 ))}
+
                 <div className="pt-2 space-y-2">
                   {!user && (
                     <Button

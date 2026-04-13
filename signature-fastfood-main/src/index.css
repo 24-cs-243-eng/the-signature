@@ -165,3 +165,14 @@ html {
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
+
+@keyframes flip-3d {
+  0% { transform: perspective(400px) rotateY(0deg); }
+  100% { transform: perspective(400px) rotateY(360deg); }
+}
+
+.animate-flip-3d {
+  animation: flip-3d 3s infinite ease-in-out;
+  transform-style: preserve-3d;
+}
+
