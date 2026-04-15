@@ -21,6 +21,8 @@ import SavedAddresses from "./pages/SavedAddresses";
 import AdminPage from "./pages/Admin";
 import NotFound from "./pages/NotFound";
 
+import AccountSettings from "./pages/AccountSettings";
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -38,6 +40,7 @@ const App = () => (
                 <Route path="/menu" element={<MenuPage />} />
                 <Route path="/deals" element={<DealsPage />} />
                 <Route path="/custom-deal" element={<CustomDealPage />} />
+                <Route path="/account" element={<AccountSettings />} />
                 <Route path="/about" element={<AboutPage />} />
                 <Route path="/contact" element={<ContactPage />} />
                 <Route path="/orders" element={<OrderHistory />} />

@@ -8,6 +8,7 @@ import { useOrderMode } from "@/context/OrderModeContext";
 import { Button } from "@/components/ui/button";
 import { LoginModal, UserMenu } from "@/components/AuthUI";
 import DeliveryPickupSelector from "@/components/DeliveryPickupSelector";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 const signatureLogo = "/media/signature-logo.jpeg";
 
@@ -113,6 +114,11 @@ const Navigation = () => {
               </div>
 
               <div className="hidden lg:block h-5 w-px bg-gray-200 dark:bg-white/10 mx-0.5" />
+
+              {/* Theme Toggle */}
+              <div className="hidden lg:block">
+                <ThemeToggle />
+              </div>
 
               {/* Cart */}
               <button
@@ -223,8 +229,12 @@ const Navigation = () => {
                   </Link>
                 ))}
 
-                {/* Auth + CTA */}
+                {/* Theme & Auth & CTA */}
                 <div className="pt-2 space-y-2">
+                  <div className="flex justify-between items-center py-2 px-1">
+                    <span className="text-sm font-heading font-bold text-gray-700 dark:text-gray-300">Theme</span>
+                    <ThemeToggle />
+                  </div>
                   {!user && (
                     <Button
                       onClick={() => { setIsLoginOpen(true); setIsMenuOpen(false); }}

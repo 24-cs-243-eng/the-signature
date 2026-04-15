@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Link } from "react-router-dom";
+import { X, ChefHat, Heart, User, Phone, CheckCircle2, LogOut, Chrome, Settings } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
-import { X, ChefHat, Heart, User, Phone, CheckCircle2, LogOut, Chrome } from "lucide-react";
 
 // ─── Google Brand Icon ────────────────────────────────────────────────────────
 const GoogleIcon = () => (
@@ -314,10 +315,18 @@ const UserMenu = () => {
                 </p>
               </div>
             </div>
-            <div className="h-px bg-border mb-3" />
+            <div className="h-px bg-border mb-2" />
+            <Link 
+              to="/account"
+              onClick={() => setOpen(false)}
+              className="w-full flex items-center gap-2 text-xs text-foreground hover:bg-muted font-heading font-semibold py-2 px-2 rounded-md transition-colors"
+            >
+              <Settings className="w-3.5 h-3.5" />
+              Account Settings
+            </Link>
             <button
               onClick={handleSignOut}
-              className="w-full flex items-center gap-2 text-xs text-destructive hover:text-destructive/80 font-heading font-semibold py-1.5 transition-colors"
+              className="w-full flex items-center gap-2 text-xs text-destructive hover:bg-destructive/10 font-heading font-semibold py-2 px-2 rounded-md transition-colors"
             >
               <LogOut className="w-3.5 h-3.5" />
               {isGoogle ? "Sign out" : "Sign out / Change"}

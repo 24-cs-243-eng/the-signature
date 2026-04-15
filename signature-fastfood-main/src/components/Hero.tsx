@@ -28,6 +28,15 @@ const banners: Banner[] = [
     objectPosition: "center center",
   },
   {
+    id: "b-explore",
+    image: "/media/banner-explore.png",
+    title: "Explore Our Menu",
+    subtitle: "Delicious meals crafted for you.",
+    link: "/menu",
+    cta: "View Menu",
+    objectPosition: "center center",
+  },
+  {
     id: "b1",
     image: "/media/banner-zinger.png",
     title: "Zinger Combo",
