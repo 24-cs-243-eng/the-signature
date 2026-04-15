@@ -12,6 +12,7 @@ import Preloader from "@/components/Preloader";
 import Index from "./pages/Index";
 import MenuPage from "./pages/Menu";
 import DealsPage from "./pages/Deals";
+import CustomDealPage from "./pages/CustomDeal";
 import AboutPage from "./pages/AboutPage";
 import ContactPage from "./pages/ContactPage";
 import OrderHistory from "./pages/OrderHistory";
@@ -36,6 +37,7 @@ const App = () => (
                 <Route path="/" element={<Index />} />
                 <Route path="/menu" element={<MenuPage />} />
                 <Route path="/deals" element={<DealsPage />} />
+                <Route path="/custom-deal" element={<CustomDealPage />} />
                 <Route path="/about" element={<AboutPage />} />
                 <Route path="/contact" element={<ContactPage />} />
                 <Route path="/orders" element={<OrderHistory />} />

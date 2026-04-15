@@ -1,29 +1,15 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, User, MapPin, Store, ChevronRight } from "lucide-react";
+import { Menu, X, User, MapPin, Store, ChevronRight, ShoppingBag } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import { useAuth } from "@/context/AuthContext";
 import { useOrderMode } from "@/context/OrderModeContext";
 import { Button } from "@/components/ui/button";
 import { LoginModal, UserMenu } from "@/components/AuthUI";
 import DeliveryPickupSelector from "@/components/DeliveryPickupSelector";
-import { ThemeToggle } from "@/components/ThemeToggle";
-const signatureLogo = "/media/signature-logo.jpeg";;
 
-/* Custom bucket/bag cart icon — unique branding like KFC's bucket */
-const BucketIcon = ({ className = "" }: { className?: string }) => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-    {/* Bucket shape */}
-    <path d="M4 10 L6 21 H18 L20 10" />
-    <path d="M2 10 H22" />
-    {/* Handle */}
-    <path d="M8 10 C8 5 16 5 16 10" />
-    {/* Steam lines */}
-    <path d="M10 7 C10 5.5 10.5 4 10 3" strokeWidth="1.5" opacity="0.6" />
-    <path d="M14 7 C14 5.5 14.5 4 14 3" strokeWidth="1.5" opacity="0.6" />
-  </svg>
-);
+const signatureLogo = "/media/signature-logo.jpeg";
 
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -39,6 +25,7 @@ const Navigation = () => {
     { to: "/", label: "Home" },
     { to: "/menu", label: "Menu" },
     { to: "/deals", label: "Deals" },
+    { to: "/custom-deal", label: "Custom" },
     { to: "/about", label: "About" },
     { to: "/contact", label: "Contact" },
   ];
@@ -57,99 +44,112 @@ const Navigation = () => {
     <>
       <nav className="fixed top-0 left-0 right-0 z-50">
 
-        {/* Main navbar — White bg with strong bottom shadow */}
-        <div className="bg-card/95 backdrop-blur-md border-b border-border shadow-md">
-          <div className="container mx-auto px-4 py-2.5 flex items-center justify-between">
+        {/* ── Main bar ── */}
+        <div className="bg-white dark:bg-black border-b border-gray-200 dark:border-white/10 shadow-sm">
+          <div className="container mx-auto px-4 h-14 flex items-center justify-between">
+
             {/* Logo */}
-            <Link to="/" className="flex items-center gap-2.5 group shrink-0">
+            <Link to="/" className="flex items-center gap-2.5 shrink-0 group">
               <div className="relative">
-                <img src={signatureLogo} alt="Signature" className="w-11 h-11 rounded-full object-cover ring-2 ring-primary/20 group-hover:ring-primary/50 transition-all" />
-                <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-emerald-500 rounded-full border-2 border-card" />
+                <img
+                  src={signatureLogo}
+                  alt="Signature"
+                  className="w-9 h-9 rounded-full object-cover ring-2 ring-red-600/30 group-hover:ring-red-600/60 transition-all"
+                />
+                <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 bg-emerald-500 rounded-full border-2 border-white dark:border-black" />
               </div>
-              <div className="hidden sm:block">
-                <span className="font-heading font-black text-lg text-foreground leading-none tracking-tight">
+              <div className="hidden sm:block leading-none">
+                <span className="font-heading font-black text-base text-gray-900 dark:text-white tracking-tight">
                   Signature
                 </span>
-                <span className="block text-[10px] text-primary font-heading font-bold uppercase tracking-[0.2em]">
+                <span className="block text-[9px] text-red-600 font-heading font-black uppercase tracking-[0.2em]">
                   Fast Food
                 </span>
               </div>
             </Link>
 
             {/* Desktop nav links */}
-            <div className="hidden lg:flex items-center gap-1">
+            <div className="hidden lg:flex items-center gap-0.5">
               {navLinks.map((link) => (
                 <Link
                   key={link.to}
                   to={link.to}
-                  className={`px-3.5 py-2 rounded-full text-sm font-heading font-bold uppercase tracking-wider transition-all ${
+                  className={`px-3.5 py-2 rounded-full text-sm font-heading font-bold uppercase tracking-wide transition-all ${
                     isActive(link.to)
-                      ? "bg-primary text-primary-foreground shadow-sm shadow-primary/40"
-                      : "text-foreground/60 hover:text-foreground hover:bg-muted"
+                      ? "bg-red-600 text-white shadow-sm"
+                      : "text-gray-600 dark:text-white/60 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/10"
                   }`}
                 >
                   {link.label}
                 </Link>
               ))}
-            </div>{/* end desktop nav */}
+            </div>
 
-            {/* Right side actions group */}
-            <div className="flex items-center gap-1.5">
-              {/* Delivery / Pickup toggle — desktop only */}
-              <div className="hidden lg:flex bg-muted rounded-full p-0.5 border border-border mr-1">
+            {/* Right actions */}
+            <div className="flex items-center gap-1">
+
+              {/* Delivery/Pickup — desktop only */}
+              <div className="hidden lg:flex bg-gray-100 dark:bg-white/10 rounded-full p-0.5 border border-gray-200 dark:border-white/10 mr-1">
                 <button
                   onClick={() => openModeSelector("delivery")}
-                  className={`flex items-center gap-1 px-3 py-1.5 rounded-full text-[10px] font-heading font-bold uppercase tracking-wider transition-all ${
-                    mode === "delivery" ? "bg-primary text-primary-foreground shadow-sm" : "text-foreground/60 hover:text-foreground"
+                  className={`flex items-center gap-1 px-3 py-1.5 rounded-full text-[10px] font-heading font-bold uppercase tracking-wide transition-all ${
+                    mode === "delivery"
+                      ? "bg-red-600 text-white shadow-sm"
+                      : "text-gray-600 dark:text-white/60 hover:text-gray-900 dark:hover:text-white"
                   }`}
                 >
                   <MapPin className="w-3 h-3" /> Delivery
                 </button>
                 <button
                   onClick={() => openModeSelector("pickup")}
-                  className={`flex items-center gap-1 px-3 py-1.5 rounded-full text-[10px] font-heading font-bold uppercase tracking-wider transition-all ${
-                    mode === "pickup" ? "bg-primary text-primary-foreground shadow-sm" : "text-foreground/60 hover:text-foreground"
+                  className={`flex items-center gap-1 px-3 py-1.5 rounded-full text-[10px] font-heading font-bold uppercase tracking-wide transition-all ${
+                    mode === "pickup"
+                      ? "bg-red-600 text-white shadow-sm"
+                      : "text-gray-600 dark:text-white/60 hover:text-gray-900 dark:hover:text-white"
                   }`}
                 >
                   <Store className="w-3 h-3" /> Pickup
                 </button>
               </div>
 
-              <div className="hidden lg:block h-4 w-px bg-border" />
+              <div className="hidden lg:block h-5 w-px bg-gray-200 dark:bg-white/10 mx-0.5" />
 
               {/* Cart */}
               <button
                 onClick={() => setIsCartOpen(true)}
-                className="relative p-2 rounded-full hover:bg-muted transition-colors group"
+                className="relative p-2 rounded-full hover:bg-gray-100 dark:hover:bg-white/10 transition-colors group"
               >
-                <BucketIcon className="w-6 h-6 text-foreground/70 group-hover:text-primary transition-colors" />
+                <ShoppingBag className="w-5 h-5 text-gray-700 dark:text-white/70 group-hover:text-red-600 transition-colors" />
                 {totalItems > 0 && (
                   <motion.span
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
-                    className="absolute -top-0.5 -right-0.5 w-5 h-5 bg-primary text-primary-foreground text-[10px] rounded-full flex items-center justify-center font-black shadow-sm"
+                    className="absolute -top-0.5 -right-0.5 w-4.5 h-4.5 min-w-[1.1rem] min-h-[1.1rem] bg-red-600 text-white text-[9px] rounded-full flex items-center justify-center font-black shadow-sm px-0.5"
                   >
                     {totalItems}
                   </motion.span>
                 )}
               </button>
 
-              <ThemeToggle />
-
-              {user ? <UserMenu /> : (
-                <button
-                  onClick={() => setIsLoginOpen(true)}
-                  className="p-2 rounded-full hover:bg-muted transition-colors group"
-                >
-                  <User className="w-5 h-5 text-foreground/70 group-hover:text-primary transition-colors" />
-                </button>
-              )}
+              {/* User — desktop only */}
+              <div className="hidden lg:block">
+                {user ? (
+                  <UserMenu />
+                ) : (
+                  <button
+                    onClick={() => setIsLoginOpen(true)}
+                    className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-white/10 transition-colors group"
+                  >
+                    <User className="w-5 h-5 text-gray-700 dark:text-white/70 group-hover:text-red-600 transition-colors" />
+                  </button>
+                )}
+              </div>
 
               {/* Order Now — desktop only */}
               <Link to="/menu" className="hidden lg:block ml-1">
                 <Button
-                  className="bg-gradient-brand text-primary-foreground font-heading font-black text-xs uppercase tracking-wider rounded-full px-5 shadow-md hover:shadow-lg hover:opacity-95 transition-all"
                   size="sm"
+                  className="bg-red-600 hover:bg-red-700 text-white font-heading font-black text-xs uppercase tracking-wide rounded-full px-5 shadow-md transition-all"
                 >
                   Order Now <ChevronRight className="w-3.5 h-3.5 ml-0.5" />
                 </Button>
@@ -157,55 +157,65 @@ const Navigation = () => {
 
               {/* Mobile hamburger */}
               <button
-                className="lg:hidden p-2 rounded-full hover:bg-muted transition-colors"
+                className="lg:hidden p-2 rounded-full hover:bg-gray-100 dark:hover:bg-white/10 transition-colors"
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
+                aria-label="Menu"
               >
-                {isMenuOpen ? <X className="w-5 h-5 text-foreground" /> : <Menu className="w-5 h-5 text-foreground" />}
+                {isMenuOpen
+                  ? <X className="w-5 h-5 text-gray-800 dark:text-white" />
+                  : <Menu className="w-5 h-5 text-gray-800 dark:text-white" />
+                }
               </button>
-            </div>{/* end right actions */}
-          </div>{/* end container */}
-        </div>{/* end bg-card bar */}
+            </div>
+          </div>
+        </div>
 
-        {/* Mobile dropdown — simplified, no hash links since BottomNav handles Custom Deals */}
+        {/* ── Mobile slide-out menu ── */}
         <AnimatePresence>
           {isMenuOpen && (
             <motion.div
               initial={{ height: 0, opacity: 0 }}
               animate={{ height: "auto", opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.22 }}
-              className="lg:hidden overflow-hidden bg-card border-b border-border shadow-xl"
+              transition={{ duration: 0.2 }}
+              className="lg:hidden overflow-hidden bg-white dark:bg-black border-b border-gray-200 dark:border-white/10 shadow-xl"
             >
-              <div className="container mx-auto px-4 py-4 space-y-1">
-                {/* Delivery/Pickup toggle in mobile menu too */}
-                <div className="flex bg-muted rounded-2xl p-1 border border-border mb-3">
+              <div className="px-4 py-4 space-y-1">
+
+                {/* Delivery / Pickup toggle */}
+                <div className="flex bg-gray-100 dark:bg-white/10 rounded-2xl p-1 border border-gray-200 dark:border-white/10 mb-3">
                   <button
                     onClick={() => { openModeSelector("delivery"); setIsMenuOpen(false); }}
-                    className={`flex-1 flex items-center justify-center gap-1.5 py-2 rounded-xl text-xs font-heading font-bold uppercase tracking-wider transition-all ${
-                      mode === "delivery" ? "bg-primary text-primary-foreground shadow-md" : "text-foreground/60"
+                    className={`flex-1 flex items-center justify-center gap-1.5 py-2 rounded-xl text-xs font-heading font-bold uppercase tracking-wide transition-all ${
+                      mode === "delivery"
+                        ? "bg-red-600 text-white shadow-md"
+                        : "text-gray-600 dark:text-white/60"
                     }`}
                   >
                     <MapPin className="w-3.5 h-3.5" /> Delivery
                   </button>
                   <button
                     onClick={() => { openModeSelector("pickup"); setIsMenuOpen(false); }}
-                    className={`flex-1 flex items-center justify-center gap-1.5 py-2 rounded-xl text-xs font-heading font-bold uppercase tracking-wider transition-all ${
-                      mode === "pickup" ? "bg-primary text-primary-foreground shadow-md" : "text-foreground/60"
+                    className={`flex-1 flex items-center justify-center gap-1.5 py-2 rounded-xl text-xs font-heading font-bold uppercase tracking-wide transition-all ${
+                      mode === "pickup"
+                        ? "bg-red-600 text-white shadow-md"
+                        : "text-gray-600 dark:text-white/60"
                     }`}
                   >
                     <Store className="w-3.5 h-3.5" /> Pickup
                   </button>
                 </div>
 
+                {/* Nav links */}
                 {navLinks.map((link) => (
                   <Link
                     key={link.to}
                     to={link.to}
                     onClick={() => setIsMenuOpen(false)}
-                    className={`flex items-center justify-between py-3 px-4 rounded-2xl text-sm font-heading font-bold uppercase tracking-wider transition-all ${
+                    className={`flex items-center justify-between py-3 px-4 rounded-2xl text-sm font-heading font-bold uppercase tracking-wide transition-all ${
                       isActive(link.to)
-                        ? "bg-primary/10 text-primary border border-primary/20"
-                        : "text-foreground/70 hover:bg-muted hover:text-foreground"
+                        ? "bg-red-600/10 text-red-600 border border-red-600/20"
+                        : "text-gray-700 dark:text-white/70 hover:bg-gray-100 dark:hover:bg-white/10"
                     }`}
                   >
                     {link.label}
@@ -213,18 +223,19 @@ const Navigation = () => {
                   </Link>
                 ))}
 
+                {/* Auth + CTA */}
                 <div className="pt-2 space-y-2">
                   {!user && (
                     <Button
                       onClick={() => { setIsLoginOpen(true); setIsMenuOpen(false); }}
                       variant="outline"
-                      className="w-full border-primary/20 text-foreground rounded-full font-heading font-bold"
+                      className="w-full border-red-600/20 text-gray-800 dark:text-white rounded-full font-heading font-bold"
                     >
                       <User className="w-4 h-4 mr-2" /> Sign In
                     </Button>
                   )}
                   <Link to="/menu" onClick={() => setIsMenuOpen(false)}>
-                    <Button className="w-full bg-gradient-brand text-primary-foreground font-heading font-black uppercase tracking-wider rounded-full shadow-md">
+                    <Button className="w-full bg-red-600 hover:bg-red-700 text-white font-heading font-black uppercase tracking-wide rounded-full shadow-md">
                       Order Now
                     </Button>
                   </Link>

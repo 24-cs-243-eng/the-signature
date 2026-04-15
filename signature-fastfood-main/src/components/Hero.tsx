@@ -2,7 +2,6 @@ import { useState, useCallback, useEffect } from "react";
 import { motion } from "framer-motion";
 import useEmblaCarousel from "embla-carousel-react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { useCart } from "@/context/CartContext";
 
@@ -12,7 +11,7 @@ interface Banner {
   title: string;
   subtitle: string;
   price?: number;
-  dealId?: string; // map to a menu/deal item
+  dealId?: string;
   link: string;
   cta: string;
   objectPosition?: string;
@@ -20,38 +19,37 @@ interface Banner {
 
 const banners: Banner[] = [
   {
-    id: "b3",
-    image: "/media/banner-explore.png",
-    title: "Explore Our Menu",
-    subtitle: "Fresh. Hot. Finger Lickin' Good.",
+    id: "b0",
+    image: "/media/banner-new.png",
+    title: "Signature Experience",
+    subtitle: "Bold Flavours. Every Bite.",
     link: "/menu",
-    cta: "Explore Menu",
+    cta: "Order Now",
     objectPosition: "center center",
   },
   {
     id: "b1",
     image: "/media/banner-zinger.png",
     title: "Zinger Combo",
-    subtitle: "1 Zinger Burger · 1 Regular Fries · 1 Regular Drink",
+    subtitle: "Burger · Fries · Drink",
     price: 599,
     dealId: "cd2",
     link: "/deals",
-    cta: "Order Now",
+    cta: "Add to Cart",
     objectPosition: "center center",
   },
   {
     id: "b2",
     image: "/media/banner-family.png",
-    title: "Family Deals 1",
-    subtitle: "4pc Zinger · 4pc Fried Chicken · Regular Fries · 1.5L Drink",
+    title: "Family Deal 1",
+    subtitle: "4pc Zinger · 4pc Fried Chicken · Fries · 1.5L Drink",
     price: 2290,
     dealId: "cd1",
     link: "/deals",
-    cta: "Order Now",
+    cta: "Add to Cart",
     objectPosition: "center center",
   },
 ];
-
 
 const Hero = () => {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
@@ -66,7 +64,10 @@ const Hero = () => {
     const onSelect = () => setSelectedIndex(emblaApi.selectedScrollSnap());
     emblaApi.on("select", onSelect);
     const interval = setInterval(() => emblaApi.scrollNext(), 5500);
-    return () => { emblaApi.off("select", onSelect); clearInterval(interval); };
+    return () => {
+      emblaApi.off("select", onSelect);
+      clearInterval(interval);
+    };
   }, [emblaApi]);
 
   const handleOrderNow = (banner: Banner) => {
@@ -81,36 +82,36 @@ const Hero = () => {
   };
 
   return (
-    <section className="pt-[90px] md:pt-[64px]">
+    <section className="pt-[58px] md:pt-[64px]">
       {/* Hero Carousel */}
       <div className="relative overflow-hidden">
         <div className="overflow-hidden" ref={emblaRef}>
           <div className="flex">
             {banners.map((b, i) => (
               <div key={b.id} className="flex-[0_0_100%] min-w-0">
-                {/* Mobile: compact, 220px tall. Desktop: 380px */}
-                <div className="relative h-[220px] sm:h-[280px] md:h-[380px] overflow-hidden bg-black">
+                <div className="relative h-[230px] sm:h-[300px] md:h-[420px] overflow-hidden bg-black">
                   <img
                     src={b.image}
                     alt={b.title}
-                    className="w-full h-full object-cover object-center"
+                    className="w-full h-full object-cover"
                     style={{ objectPosition: b.objectPosition ?? "center" }}
+                    loading={i === 0 ? "eager" : "lazy"}
                   />
-                  {/* Dark gradient overlay from left */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent" />
+                  {/* Gradient overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/35 to-transparent" />
 
-                  {/* Text + CTA (left side) */}
+                  {/* Text + CTA */}
                   <motion.div
                     key={`text-${i}-${selectedIndex}`}
-                    initial={{ opacity: 0, x: -30 }}
+                    initial={{ opacity: 0, x: -24 }}
                     animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.5 }}
-                    className="absolute inset-0 flex flex-col justify-center px-5 md:px-12 max-w-[60%] md:max-w-[50%]"
+                    transition={{ duration: 0.45 }}
+                    className="absolute inset-0 flex flex-col justify-center px-5 md:px-14 max-w-[65%] md:max-w-[50%]"
                   >
                     <h2 className="font-heading font-black text-white text-xl sm:text-2xl md:text-4xl leading-tight mb-1 drop-shadow-lg">
                       {b.title}
                     </h2>
-                    <p className="text-white/80 text-[11px] sm:text-sm md:text-base mb-3 leading-snug hidden sm:block">
+                    <p className="text-white/75 text-[11px] sm:text-sm md:text-base mb-3 leading-snug hidden sm:block">
                       {b.subtitle}
                     </p>
                     {b.price && (
@@ -118,17 +119,17 @@ const Hero = () => {
                         Rs. {b.price.toLocaleString()}
                       </p>
                     )}
-                    <div className="flex gap-2">
+                    <div>
                       {b.price && b.dealId ? (
                         <button
                           onClick={() => handleOrderNow(b)}
-                          className="bg-red-600 hover:bg-red-700 active:scale-95 text-white font-heading font-black text-xs sm:text-sm px-4 sm:px-6 py-2 sm:py-2.5 rounded-full shadow-lg transition-all duration-200 uppercase tracking-wide"
+                          className="bg-red-600 hover:bg-red-700 active:scale-95 text-white font-heading font-black text-xs sm:text-sm px-5 sm:px-7 py-2 sm:py-2.5 rounded-full shadow-lg transition-all duration-200 uppercase tracking-wide"
                         >
                           {b.cta}
                         </button>
                       ) : (
                         <Link to={b.link}>
-                          <button className="bg-red-600 hover:bg-red-700 active:scale-95 text-white font-heading font-black text-xs sm:text-sm px-4 sm:px-6 py-2 sm:py-2.5 rounded-full shadow-lg transition-all duration-200 uppercase tracking-wide">
+                          <button className="bg-red-600 hover:bg-red-700 active:scale-95 text-white font-heading font-black text-xs sm:text-sm px-5 sm:px-7 py-2 sm:py-2.5 rounded-full shadow-lg transition-all duration-200 uppercase tracking-wide">
                             {b.cta}
                           </button>
                         </Link>
@@ -165,17 +166,17 @@ const Hero = () => {
               onClick={() => emblaApi?.scrollTo(i)}
               aria-label={`Slide ${i + 1}`}
               className={`h-1.5 rounded-full transition-all duration-300 ${
-                i === selectedIndex ? "w-6 bg-white" : "w-1.5 bg-white/50"
+                i === selectedIndex ? "w-6 bg-white" : "w-1.5 bg-white/40"
               }`}
             />
           ))}
         </div>
       </div>
 
-      {/* REORDER strip */}
+      {/* Order strip */}
       <Link to="/menu">
         <div className="bg-red-600 hover:bg-red-700 text-white text-center font-heading font-black text-sm md:text-base py-3 tracking-widest uppercase cursor-pointer transition-colors">
-          Reorder
+          View Full Menu
         </div>
       </Link>
     </section>

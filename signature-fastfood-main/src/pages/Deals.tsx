@@ -14,20 +14,18 @@ const DealsPage = () => {
 
   useEffect(() => {
     if (location.hash === "#custom") setActiveTab("build");
-    else if (location.hash === "#combo" || location.pathname === "/deals") {
-      // Don't auto reset if they manually switched tabs, just listen to hash changes
-      if (location.hash === "") return; 
-      setActiveTab("combo");
+    else if (location.hash === "") {
+      // no change on empty hash
     }
   }, [location.hash]);
 
   return (
     <div className="min-h-screen bg-background pb-20 lg:pb-0">
       <Navigation />
-      <div className="pt-[64px]">
+      <div className="pt-[56px]">
 
-        {/* ── Tab switcher ── */}
-        <div className="sticky top-[64px] z-30 bg-background/95 backdrop-blur-md border-b border-white/10 shadow-sm">
+        {/* Tab switcher */}
+        <div className="sticky top-[56px] z-30 bg-white dark:bg-black border-b border-gray-200 dark:border-white/10 shadow-sm">
           <div className="container mx-auto px-4">
             <div className="flex items-center gap-1 py-2">
               <button
@@ -35,8 +33,8 @@ const DealsPage = () => {
                 onClick={() => setActiveTab("combo")}
                 className={`flex items-center gap-2 px-5 py-2.5 rounded-full font-heading font-black text-xs uppercase tracking-wide transition-all ${
                   activeTab === "combo"
-                    ? "bg-primary text-primary-foreground shadow-lg shadow-primary/30"
-                    : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                    ? "bg-red-600 text-white shadow"
+                    : "text-gray-500 dark:text-white/50 hover:text-gray-800 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/10"
                 }`}
               >
                 <Tag className="w-3.5 h-3.5" />
@@ -47,18 +45,17 @@ const DealsPage = () => {
                 onClick={() => setActiveTab("build")}
                 className={`flex items-center gap-2 px-5 py-2.5 rounded-full font-heading font-black text-xs uppercase tracking-wide transition-all ${
                   activeTab === "build"
-                    ? "bg-primary text-primary-foreground shadow-lg shadow-primary/30"
-                    : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                    ? "bg-red-600 text-white shadow"
+                    : "text-gray-500 dark:text-white/50 hover:text-gray-800 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/10"
                 }`}
               >
                 <Wand2 className="w-3.5 h-3.5" />
-                🔥 Custom Deals
+                Custom Deal
               </button>
             </div>
           </div>
         </div>
 
-        {/* ── Tab content ── */}
         {activeTab === "combo" ? <ComboDeals /> : <CreateYourDeal />}
       </div>
       <CartPanel />
