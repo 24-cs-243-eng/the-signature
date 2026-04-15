@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 
+let isFirstLoad = true;
+
 const Preloader = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [fading, setFading] = useState(false);
@@ -11,11 +13,12 @@ const Preloader = () => {
     setIsLoading(true);
     setFading(false);
 
-    // Show for at least 1.2s on first load, 600ms on route change
-    const showDuration = performance.now() < 3000 ? 1200 : 600;
+    // Show for 2.5s on first load, 800ms on route changes
+    const showDuration = isFirstLoad ? 2500 : 800;
+    isFirstLoad = false;
 
     const fadeTimer = setTimeout(() => setFading(true), showDuration);
-    const hideTimer = setTimeout(() => setIsLoading(false), showDuration + 350);
+    const hideTimer = setTimeout(() => setIsLoading(false), showDuration + 400);
 
     return () => {
       clearTimeout(fadeTimer);
