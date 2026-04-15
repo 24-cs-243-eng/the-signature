@@ -19,15 +19,6 @@ interface Banner {
 
 const banners: Banner[] = [
   {
-    id: "b0",
-    image: "/media/banner-new.png",
-    title: "Signature Experience",
-    subtitle: "Bold Flavours. Every Bite.",
-    link: "/menu",
-    cta: "Order Now",
-    objectPosition: "center center",
-  },
-  {
     id: "b-explore",
     image: "/media/banner-explore.png",
     title: "Explore Our Menu",
