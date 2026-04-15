@@ -22,6 +22,17 @@ const Navigation = () => {
   const { mode } = useOrderMode();
   const location = useLocation();
 
+  // Auto-close login modal when user is detected
+  useEffect(() => {
+    if (user && isLoginOpen) {
+      setIsLoginOpen(false);
+      // Clean up the URL fragment (access_token) after successful login
+      if (window.location.hash.includes("access_token")) {
+        window.history.replaceState(null, "", window.location.pathname + window.location.search);
+      }
+    }
+  }, [user, isLoginOpen]);
+
   const navLinks = [
     { to: "/", label: "Home" },
     { to: "/menu", label: "Menu" },
