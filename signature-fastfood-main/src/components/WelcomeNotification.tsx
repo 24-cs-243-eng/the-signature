@@ -61,7 +61,7 @@ const WelcomeNotification = () => {
                 </div>
                 <div>
                   <p className="font-heading font-black text-sm text-foreground leading-tight">
-                    {firstName ? `Hey ${firstName}! 👋` : "Hey there! 👋"}
+                    {firstName ? `Hey ${firstName}!` : "Hey there!"}
                   </p>
                   <p className="text-muted-foreground text-[11px]">
                     {user ? "Welcome back — here's what's waiting for you" : "Here's what you're missing out on"}
@@ -107,7 +107,7 @@ const WelcomeNotification = () => {
 
               {/* Footer hint */}
               <p className="text-center text-[10px] text-muted-foreground mt-3">
-                {user ? "Tap any option to jump right in 🚀" : "Sign in to unlock your full order history & deals"}
+                {user ? "Tap any option to jump right in" : "Sign in to unlock your full order history & deals"}
               </p>
             </div>
           </div>

@@ -81,7 +81,7 @@ const LoginModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void 
               </div>
               <div>
                 <h2 className="font-heading font-black text-xl text-foreground leading-tight">
-                  Welcome! 👋
+                  Welcome!
                 </h2>
                 <p className="text-muted-foreground text-xs">Sign in or continue as guest</p>
               </div>
@@ -192,7 +192,7 @@ const LoginModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void 
                           <CheckCircle2 className="w-8 h-8 text-green-500" />
                         </div>
                         <p className="font-heading font-black text-lg text-foreground">
-                          Got it, {name.split(" ")[0]}! 🎉
+                          Got it, {name.split(" ")[0]}!
                         </p>
                         <p className="text-muted-foreground text-sm text-center">
                           We'll remember you for next time
@@ -241,7 +241,7 @@ const LoginModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void 
                           Let's Order!
                         </button>
                         <p className="text-center text-[11px] text-muted-foreground leading-relaxed">
-                          Saved only on your device for faster checkout 🛡️
+                          Saved only on your device for faster checkout
                         </p>
                       </motion.form>
                     )}

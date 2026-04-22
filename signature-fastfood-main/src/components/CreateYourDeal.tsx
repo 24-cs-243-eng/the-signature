@@ -534,9 +534,10 @@ const CreateYourDeal = () => {
   const handleAddToCart = () => {
     if (dealItems.length === 0) return;
     const label = activeTier ? ` (${activeTier.label})` : "";
+    const details = dealItems.map(d => `${d.quantity}x ${d.name}`).join(", ");
     addItem({
       id: `custom-deal-${Date.now()}`,
-      name: `Custom Deal${label}`,
+      name: `Custom Deal${label} (${details})`,
       price: finalPrice,
       image: dealItems[0].image,
     });
