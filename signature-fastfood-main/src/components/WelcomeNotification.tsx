@@ -13,6 +13,8 @@ const WelcomeNotification = () => {
     ?? guest?.name?.split(" ")[0]
     ?? null;
 
+  const avatarUrl = googleUser?.user_metadata?.avatar_url;
+
   useEffect(() => {
     // Only show once per session
     const alreadyShown = sessionStorage.getItem("sig_welcome_shown");
@@ -35,13 +37,13 @@ const WelcomeNotification = () => {
     <AnimatePresence>
       {visible && (
         <motion.div
-          initial={{ opacity: 0, y: 80, scale: 0.95 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          exit={{ opacity: 0, y: 60, scale: 0.95 }}
+          initial={{ opacity: 0, x: -100, scale: 0.95 }}
+          animate={{ opacity: 1, x: 0, scale: 1 }}
+          exit={{ opacity: 0, x: -100, scale: 0.95 }}
           transition={{ type: "spring", damping: 22, stiffness: 250 }}
-          className="fixed bottom-20 lg:bottom-6 right-4 z-[999] w-[calc(100vw-2rem)] max-w-sm"
+          className="fixed bottom-20 lg:bottom-6 left-4 z-[999] w-[calc(100vw-2rem)] max-w-[280px]"
         >
-          <div className="relative bg-card border border-border rounded-2xl shadow-2xl overflow-hidden">
+          <div className="relative bg-card border border-border rounded-xl shadow-2xl overflow-hidden">
             {/* Red top accent */}
             <div className="h-1 w-full bg-gradient-to-r from-red-600 to-rose-500" />
 
@@ -53,28 +55,36 @@ const WelcomeNotification = () => {
               <X className="w-3.5 h-3.5" />
             </button>
 
-            <div className="p-4 pt-3">
+            <div className="p-3 pt-2">
               {/* Header */}
-              <div className="flex items-center gap-2 mb-3">
-                <div className="w-8 h-8 rounded-lg bg-red-600/10 flex items-center justify-center">
-                  <Sparkles className="w-4 h-4 text-red-600" />
-                </div>
+              <div className="flex items-center gap-2 mb-2">
+                {avatarUrl ? (
+                  <img src={avatarUrl} alt="avatar" className="w-7 h-7 rounded-full object-cover ring-1 ring-border" />
+                ) : firstName ? (
+                  <div className="w-7 h-7 rounded-full bg-primary/10 flex items-center justify-center text-primary font-black text-xs">
+                    {firstName[0].toUpperCase()}
+                  </div>
+                ) : (
+                  <div className="w-7 h-7 rounded-lg bg-red-600/10 flex items-center justify-center">
+                    <Sparkles className="w-3.5 h-3.5 text-red-600" />
+                  </div>
+                )}
                 <div>
-                  <p className="font-heading font-black text-sm text-foreground leading-tight">
+                  <p className="font-heading font-black text-xs text-foreground leading-tight">
                     {firstName ? `Hey ${firstName}!` : "Hey there!"}
                   </p>
-                  <p className="text-muted-foreground text-[11px]">
-                    {user ? "Welcome back — here's what's waiting for you" : "Here's what you're missing out on"}
+                  <p className="text-muted-foreground text-[10px]">
+                    {user ? "Quick shortcuts" : "Unlock your history"}
                   </p>
                 </div>
               </div>
 
               {/* Action tiles */}
-              <div className="grid grid-cols-3 gap-2">
+              <div className="grid grid-cols-3 gap-1.5">
                 <Link
                   to="/deals"
                   onClick={handleClose}
-                  className="flex flex-col items-center gap-1.5 p-2.5 rounded-xl bg-muted hover:bg-muted/80 border border-border/50 transition-colors group"
+                  className="flex flex-col items-center gap-1 p-2 rounded-lg bg-muted hover:bg-muted/80 border border-border/50 transition-colors group"
                 >
                   <div className="w-8 h-8 rounded-full bg-amber-500/10 flex items-center justify-center group-hover:scale-110 transition-transform">
                     <Tag className="w-4 h-4 text-amber-500" />
@@ -101,14 +111,9 @@ const WelcomeNotification = () => {
                   <div className="w-8 h-8 rounded-full bg-green-500/10 flex items-center justify-center group-hover:scale-110 transition-transform">
                     <RefreshCw className="w-4 h-4 text-green-500" />
                   </div>
-                  <span className="text-[10px] font-heading font-bold text-foreground text-center leading-tight">Reorder</span>
+                  <span className="text-[9px] font-heading font-bold text-foreground text-center leading-tight">Reorder</span>
                 </Link>
               </div>
-
-              {/* Footer hint */}
-              <p className="text-center text-[10px] text-muted-foreground mt-3">
-                {user ? "Tap any option to jump right in" : "Sign in to unlock your full order history & deals"}
-              </p>
             </div>
           </div>
         </motion.div>
