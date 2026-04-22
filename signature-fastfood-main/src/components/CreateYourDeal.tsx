@@ -537,9 +537,10 @@ const CreateYourDeal = () => {
     const details = dealItems.map(d => `${d.quantity}x ${d.name}`).join(", ");
     addItem({
       id: `custom-deal-${Date.now()}`,
-      name: `Custom Deal${label} (${details})`,
+      name: `Custom Deal${label}`,
       price: finalPrice,
       image: dealItems[0].image,
+      description: details,
     });
     setDealItems([]);
   };

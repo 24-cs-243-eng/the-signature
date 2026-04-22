@@ -136,7 +136,7 @@ const CartPanel = () => {
 
     const message =
       `🍔 *New Order — ${newOrderId}*\n\n` +
-      items.filter(i => i.price > 0).map(i => `• ${i.name} ×${i.quantity}  —  ${formatPKR(i.price * i.quantity)}`).join("\n") +
+      items.filter(i => i.price > 0).map(i => `• ${i.name}${i.description ? ` (${i.description})` : ""} ×${i.quantity}  —  ${formatPKR(i.price * i.quantity)}`).join("\n") +
       (reward.freeBurger ? "\n• 🎁 Free Patty Burger ×1  —  FREE" : "") +
       addOnLine +
       drinksLine +
@@ -155,14 +155,14 @@ const CartPanel = () => {
           body: JSON.stringify({
             order_id: newOrderId, user_id: "Guest",
             customer_name: customerName, phone, address: address || null,
-            items: JSON.stringify(items.map(i => ({ name: i.name, quantity: i.quantity, price: i.price }))),
+            items: JSON.stringify(items.map(i => ({ name: i.description ? `${i.name} (${i.description})` : i.name, quantity: i.quantity, price: i.price }))),
             total: grandTotal, payment_method: "cash", transaction_id: null
           })
         });
       } else {
         await supabase.from("orders").insert({
           user_id: null,
-          items: items.map(i => ({ id: i.id, name: i.name, price: i.price, quantity: i.quantity })),
+          items: items.map(i => ({ id: i.id, name: i.description ? `${i.name} (${i.description})` : i.name, price: i.price, quantity: i.quantity })),
           total: grandTotal, status: "pending", address: address || null,
         });
       }
@@ -257,6 +257,9 @@ const CartPanel = () => {
                         </div>
                         <div className="flex-1 min-w-0">
                           <h4 className="font-heading font-bold text-sm text-foreground truncate">{item.name}</h4>
+                          {item.description && (
+                            <p className="text-[10px] sm:text-xs text-muted-foreground truncate opacity-80 leading-snug break-words whitespace-normal">{item.description}</p>
+                          )}
                           <p className="text-primary font-black text-sm mt-0.5">{formatPKR(item.price * item.quantity)}</p>
                           <div className="flex items-center gap-1.5 mt-1.5">
                             <button
@@ -495,9 +498,14 @@ const CartPanel = () => {
                     <div className="bg-muted/40 rounded-2xl p-4 space-y-1.5 text-sm">
                       <p className="font-heading font-bold text-foreground/70 text-xs uppercase tracking-wider mb-2">Order Summary</p>
                       {items.map(i => (
-                        <div key={i.id} className="flex justify-between text-foreground/80">
-                          <span>{i.name} ×{i.quantity}</span>
-                          <span className="font-bold">{formatPKR(i.price * i.quantity)}</span>
+                        <div key={i.id} className="text-foreground/80 mb-1">
+                          <div className="flex justify-between">
+                            <span>{i.name} ×{i.quantity}</span>
+                            <span className="font-bold">{formatPKR(i.price * i.quantity)}</span>
+                          </div>
+                          {i.description && (
+                            <p className="text-[10px] text-muted-foreground leading-snug pr-8 tracking-tight">{i.description}</p>
+                          )}
                         </div>
                       ))}
                       {selectedAddOns.length > 0 && selectedAddOns.map(a => (
