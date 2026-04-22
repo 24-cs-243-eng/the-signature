@@ -45,7 +45,7 @@ let lastOrderTime = 0;
 
 const CartPanel = () => {
   const { items, isCartOpen, setIsCartOpen, removeItem, updateQuantity, totalPrice, totalItems, clearCart, addItem, reward, finalTotal } = useCart();
-  const { user } = useAuth();
+  const { user, googleUser, guest } = useAuth();
   const { mode } = useOrderMode();
   const [showLogin, setShowLogin] = useState(false);
   const [step, setStep] = useState<Step>("cart");
@@ -91,10 +91,12 @@ const CartPanel = () => {
     }
   }, [user]);
 
-  // Load saved address from localStorage
+  // Load saved address from localStorage (account settings address)
   useEffect(() => {
-    const saved = localStorage.getItem("sig_last_address");
+    const saved = localStorage.getItem("sig_last_address") || localStorage.getItem("sig_address");
     if (saved) setAddress(saved);
+    const savedPhone = localStorage.getItem("sig_phone_override");
+    if (savedPhone && !phone) setPhone(savedPhone);
   }, []);
 
   const validateCheckout = () => {
@@ -579,7 +581,14 @@ const CartPanel = () => {
                   {step === "cart" && (
                     <Button
                       className="w-full bg-gradient-brand text-primary-foreground font-heading font-black text-base py-6 rounded-full shadow-lg hover:shadow-xl transition-shadow uppercase tracking-wide"
-                      onClick={() => setStep("checkout")}
+                      onClick={() => {
+                        // If not signed in at all, show login modal first
+                        if (!googleUser && !guest) {
+                          setShowLogin(true);
+                        } else {
+                          setStep("checkout");
+                        }
+                      }}
                     >
                       Checkout →
                     </Button>

@@ -12,53 +12,53 @@ const signatureLogo = "/media/signature-logo.jpeg";
 
 /* ─── DATA ─────────────────────────────────────────────────── */
 const promises = [
-  { num: "01", icon: ShieldCheck, title: "Never Cheap Out", desc: "Every ingredient is hand-picked. No shortcuts, ever." },
-  { num: "02", icon: Flame,       title: "Made Hot, Served Hot", desc: "Your food leaves the kitchen in under 3 minutes." },
-  { num: "03", icon: Heart,       title: "Made With Care", desc: "We treat every order like it's going to our own family." },
-  { num: "04", icon: Zap,         title: "Bold Over Bland", desc: "If it doesn't hit, it's not making the menu. Period." },
-  { num: "05", icon: ChefHat,     title: "Chef-Level Standards", desc: "Fast food doesn't mean bad food. We prove it daily." },
-  { num: "06", icon: Sparkles,    title: "Always Improving", desc: "We taste, tweak, and perfect — because good isn't enough." },
+  { num: "01", icon: ShieldCheck, title: "We Never Cut Corners", desc: "Every ingredient is carefully picked. We don't do shortcuts — ever." },
+  { num: "02", icon: Flame,       title: "Hot Food, Always", desc: "Your order is off the grill and in your hands in under 3 minutes." },
+  { num: "03", icon: Heart,       title: "We Cook With Care", desc: "We treat every plate like it's going to someone we love." },
+  { num: "04", icon: Zap,         title: "Bold, Not Boring", desc: "If the flavour doesn't slap, it doesn't make our menu. Simple." },
+  { num: "05", icon: ChefHat,     title: "Proper Quality", desc: "Fast food doesn't have to taste cheap. We prove it every single day." },
+  { num: "06", icon: Sparkles,    title: "Always Getting Better", desc: "We taste, tweak, and improve — because good enough is never enough." },
 ];
 
 const chapters = [
   {
     year: "2024",
     label: "Chapter 01",
-    title: "The First Flame",
-    desc: "Opened at Ameer Mall with 5 menu items, a borrowed griddle, and one stubborn belief: that Lahore deserved better fast food.",
+    title: "Where It All Began",
+    desc: "We opened at Ameer Mall with just 5 things on the menu, a borrowed griddle, and a stubborn belief — Lahore deserved better fast food.",
     stat: "5 Items on the Menu",
     color: "from-red-600 to-rose-500",
   },
   {
     year: "2024",
     label: "Chapter 02",
-    title: "The Smash Hits",
-    desc: "The Smash Burger went viral. Orders flew in overnight. We doubled staff, kept quality, and never looked back.",
+    title: "The Burger That Blew Up",
+    desc: "Our Smash Burger went viral overnight. Orders poured in. We hired more people, kept the quality, and kept going.",
     stat: "1,000+ Orders in Months",
     color: "from-orange-600 to-amber-500",
   },
   {
     year: "2025",
     label: "Chapter 03",
-    title: "The Expansion",
-    desc: "Pizza, wraps, chicken buckets — 34+ items crafted over months of obsessive testing. If it didn't earn its spot, it didn't make the menu.",
+    title: "Growing the Menu",
+    desc: "Pizzas, wraps, chicken buckets — we spent months testing until every item earned its spot. If it wasn't great, it didn't go up.",
     stat: "34+ Menu Items",
     color: "from-red-700 to-red-500",
   },
   {
     year: "2025",
     label: "Chapter 04",
-    title: "The Community",
-    desc: "Late-night runs, birthday orders, family feasts — we became part of Lahore's food culture. That honour is not lost on us.",
-    stat: "15,000+ Customers",
+    title: "Part of the Community",
+    desc: "Late-night cravings, birthday feasts, family orders — people made us part of their routine. That means everything to us.",
+    stat: "15,000+ Happy Customers",
     color: "from-rose-600 to-pink-500",
   },
   {
     year: "Now",
     label: "Chapter 05",
-    title: "The Promise",
-    desc: "This is just the beginning. Every plate we send out carries our name. And our name means everything.",
-    stat: "And Counting…",
+    title: "Our Promise",
+    desc: "This is just the beginning. Every plate we send out carries our name — and we take that seriously.",
+    stat: "And Still Going…",
     color: "from-red-600 to-rose-600",
   },
 ];
@@ -234,7 +234,7 @@ const AboutPage = () => {
             transition={{ delay: 0.5 }}
             className="text-white/50 text-base md:text-lg max-w-lg mx-auto leading-relaxed mb-12"
           >
-            We didn't open a restaurant. We started a movement — one smash burger, one hot wing, one late night order at a time.
+            We didn't just open a food spot. We started something — one smash burger, one hot wing, one late-night order at a time.
           </motion.p>
 
           {/* Scroll cue */}
@@ -287,10 +287,10 @@ const AboutPage = () => {
               className="space-y-6"
             >
               <p className="text-white/60 text-base leading-relaxed">
-                We started with 5 items, zero investors, and one seriously stubborn belief: that the people of Lahore deserved fast food that actually tasted like someone cared.
+                We started with 5 things on the menu, no investors, and one big belief — people in Lahore deserved fast food that actually tasted like someone cared about it.
               </p>
               <p className="text-white/60 text-base leading-relaxed">
-                No frozen patties. No reheated anything. Just real ingredients, real heat, and real effort — served in under 3 minutes.
+                No frozen patties. Nothing reheated. Just real food, real heat, and real effort — ready in under 3 minutes.
               </p>
               {/* Pull quote */}
               <blockquote className="border-l-2 border-primary pl-5 py-1">
@@ -444,7 +444,7 @@ const AboutPage = () => {
               <span className="text-gradient">The Story.</span>
             </h2>
             <p className="text-white/40 text-base md:text-lg max-w-md mx-auto mb-10 leading-relaxed">
-              Come taste what all the passion is about. The menu is waiting — and so is the best meal of your week.
+              Come taste what all the fuss is about. The menu is right there — and your next favourite meal is waiting.
             </p>
 
             <Link

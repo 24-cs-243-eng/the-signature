@@ -9,6 +9,7 @@ import { OrderModeProvider } from "@/context/OrderModeContext";
 import BottomNav from "@/components/BottomNav";
 import FloatingCart from "@/components/FloatingCart";
 import Preloader from "@/components/Preloader";
+import WelcomeNotification from "@/components/WelcomeNotification";
 import Index from "./pages/Index";
 import MenuPage from "./pages/Menu";
 import DealsPage from "./pages/Deals";
@@ -51,6 +52,7 @@ const App = () => (
               </Routes>
               <BottomNav />
               <FloatingCart />
+              <WelcomeNotification />
             </BrowserRouter>
           </OrderModeProvider>
         </CartProvider>
