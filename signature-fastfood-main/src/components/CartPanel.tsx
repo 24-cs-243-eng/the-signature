@@ -83,21 +83,22 @@ const CartPanel = () => {
     if (isCartOpen) setStep("cart");
   }, [isCartOpen]);
 
-  // Auto-fill user data from guest profile
+  // Auto-fill from Google auth first, then guest, then localStorage
   useEffect(() => {
-    if (user) {
-      setCustomerName(user.user_metadata?.full_name || "");
-      setPhone((user.user_metadata as any)?.phone || "");
-    }
-  }, [user]);
+    // Name: Google > guest > empty
+    const googleName = googleUser?.user_metadata?.full_name ?? null;
+    const guestName  = guest?.name ?? null;
+    setCustomerName(googleName ?? guestName ?? "");
 
-  // Load saved address from localStorage (account settings address)
-  useEffect(() => {
-    const saved = localStorage.getItem("sig_last_address") || localStorage.getItem("sig_address");
+    // Phone: google meta > localStorage override > empty
+    const googlePhone = (googleUser?.user_metadata as any)?.phone ?? null;
+    const savedPhone  = localStorage.getItem("sig_phone_override") ?? null;
+    setPhone(googlePhone ?? savedPhone ?? "");
+
+    // Address: localStorage
+    const saved = localStorage.getItem("sig_last_address") ?? localStorage.getItem("sig_address") ?? null;
     if (saved) setAddress(saved);
-    const savedPhone = localStorage.getItem("sig_phone_override");
-    if (savedPhone && !phone) setPhone(savedPhone);
-  }, []);
+  }, [googleUser, guest]);
 
   const validateCheckout = () => {
     if (!customerName.trim()) { toast.error("Please enter your name"); return false; }
@@ -153,15 +154,21 @@ const CartPanel = () => {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            order_id: newOrderId, user_id: "Guest",
-            customer_name: customerName, phone, address: address || null,
+            order_id: newOrderId,
+            user_id: googleUser?.id ?? null,
+            customer_name: customerName,
+            phone,
+            address: address || null,
             items: JSON.stringify(items.map(i => ({ name: i.description ? `${i.name} (${i.description})` : i.name, quantity: i.quantity, price: i.price }))),
             total: grandTotal, payment_method: "cash", transaction_id: null
           })
         });
       } else {
         await supabase.from("orders").insert({
-          user_id: null,
+          user_id: googleUser?.id ?? null,
+          customer_name: customerName,
+          phone: phone || null,
+          customer_email: googleUser?.email ?? null,
           items: items.map(i => ({ id: i.id, name: i.description ? `${i.name} (${i.description})` : i.name, price: i.price, quantity: i.quantity })),
           total: grandTotal, status: "pending", address: address || null,
         });
