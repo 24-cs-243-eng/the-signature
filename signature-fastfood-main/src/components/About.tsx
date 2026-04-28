@@ -53,15 +53,15 @@ const About = () => {
               <img src={signatureLogo} alt="Signature" className="w-12 h-12 rounded-full object-cover ring-2 ring-primary/20" />
               <div>
                 <h3 className="font-heading font-black text-lg text-foreground">Signature Fast Food</h3>
-                <p className="text-xs text-primary font-heading font-bold uppercase tracking-wider">Est. 2020 • Islamabad</p>
+                <p className="text-xs text-primary font-heading font-bold uppercase tracking-wider">Est. 2024 • Wah Cantt</p>
               </div>
             </div>
             <p className="text-muted-foreground text-sm leading-relaxed">
-              What started as a small kitchen with big dreams is now one of the most loved fast food brands in Islamabad.
+              What started as a small kitchen with big dreams is now one of the most loved fast food brands located in <strong>New City Phase 2, Wah Cantt</strong> and serving <strong>Taxila, and Hassan Abdal</strong>.
               We believe everyone deserves restaurant-quality burgers, crispy fried chicken, and loaded pizzas — served fast and priced right.
             </p>
             <p className="text-muted-foreground text-sm leading-relaxed">
-              Our signature recipes use premium ingredients, house-made sauces, and time-tested techniques that keep customers coming back for more.
+              Our signature recipes use premium ingredients, house-made sauces, and time-tested techniques that keep customers coming back for more. Come visit our store in New City Phase 2 or order online. We are proud to be your local favorite when looking for <strong>fast food near me</strong>.
             </p>
           </motion.div>
 

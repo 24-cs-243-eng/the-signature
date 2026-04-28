@@ -106,8 +106,13 @@ const Footer = () => (
         </div>
       </div>
 
-      <div className="border-t border-[hsl(0,0%,100%)]/10 pt-6 text-center text-sm text-[hsl(0,0%,90%)]/40">
-        © 2025 {contactInfo.name}. All rights reserved.
+      <div className="border-t border-[hsl(0,0%,100%)]/10 pt-6">
+        <p className="text-center text-xs text-[hsl(0,0%,90%)]/50 mb-4 max-w-3xl mx-auto leading-relaxed">
+          Looking for the best <strong>fast food near me</strong>? {contactInfo.name} is your top choice for premium quality <strong>burgers, loaded fries, crispy chicken, and pizza</strong>. We proudly offer fast and reliable food delivery in <strong>New City Phase 2, Wah Cantt, Taxila, Hassan Abdal</strong> and all surrounding colonies. Taste the best in town today!
+        </p>
+        <div className="text-center text-sm text-[hsl(0,0%,90%)]/40">
+          © {new Date().getFullYear()} {contactInfo.name}. All rights reserved.
+        </div>
       </div>
     </div>
   </footer>

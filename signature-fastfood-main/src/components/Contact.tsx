@@ -15,10 +15,13 @@ const Contact = () => {
 
           {/* Header */}
           <div className="text-center mb-8 md:mb-12">
-            <h2 className="font-heading font-black text-3xl md:text-5xl text-foreground mb-2">
-              Visit <span className="text-gradient">Us</span>
+            <h2 className="font-heading font-black text-3xl md:text-5xl text-foreground mb-4">
+              Visit <span className="text-gradient">The Signature Cafe</span>
             </h2>
-            <p className="text-muted-foreground text-base md:text-lg">{contactInfo.tagline}</p>
+            <p className="text-muted-foreground text-base md:text-lg mb-2 font-bold">{contactInfo.tagline}</p>
+            <p className="text-muted-foreground text-sm md:text-base max-w-2xl mx-auto leading-relaxed">
+              Serving the best <strong>fast food near me</strong> in <strong>New City Phase 2, Wah Cantt, Taxila, Hassan Abdal</strong> and all surrounding colonies. Find us below and try our signature burgers, loaded fries, and pizzas today!
+            </p>
           </div>
 
           {/* Contact Cards — stacked on mobile, grid on desktop */}
